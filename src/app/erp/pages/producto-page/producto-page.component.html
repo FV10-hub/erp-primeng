@@ -1,0 +1,161 @@
+<p-toast></p-toast>
+
+<div class="grid mt-2">
+  <div class="col-4">
+    <p-button
+      label="Crear"
+      icon="pi pi-plus"
+      styleClass="p-button-primary"
+      (onClick)="openNew()"
+    ></p-button>
+  </div>
+</div>
+
+
+<div class="grid">
+  <div class="col-12">
+    <p-table #dt [value]="productos"
+    [rowsPerPageOptions]="[10,25,50]"
+    [globalFilterFields]="['descripcion','codigoBarra']" [tableStyle]="{'min-width': '75rem'}"
+    [rows]="10"
+    [paginator]="true"
+    [(selection)]="productoSelected"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+            <h5 class="m-0">Productos</h5>
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText #textInput type="text" (input)="dt.filterGlobal(textInput.value, 'contains')" placeholder="Buscar..." />
+            </span>
+        </div>
+    </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Codigo de Barra</th>
+          <th>Descriocion</th>
+          <th>Existencia</th>
+          <th>Precio Unitario</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-producto>
+        <tr>
+          <td>{{ producto.id }}</td>
+          <td>{{ producto.codigoBarra }}</td>
+          <td>{{ producto.descripcion }}</td>
+          <td>{{ producto.existencia }}</td>
+          <td>{{ producto.precio }}</td>
+          <td>
+            <p-button
+              icon="pi pi-pencil"
+              styleClass="p-button-rounded p-button-success mr-2"
+              (onClick)="editProducto(producto)"
+            ></p-button>
+            <p-button
+              icon="pi pi-trash"
+              styleClass="p-button-rounded p-button-danger"
+              (onClick)="deleteProducto(producto)"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="productoDialog"
+  [style]="{ width: '450px' }"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="header">
+    {{ productoSelected.id > 0 ? "Editar Producto" : "Crear Producto" }}
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="nombre">Descripcion</label>
+      <input
+        type="text"
+        pInputText
+        id="descripcion"
+        name="descripcion"
+        [(ngModel)]="productoSelected.descripcion"
+        required
+        autofocus
+      />
+      <small class="p-error" *ngIf="submitted && !productoSelected.descripcion"
+        >Descriocion es requerido.</small
+      >
+    </div>
+    <div class="field">
+      <label for="codigoBarra">Codigo de Barra</label>
+      <input
+        id="codigoBarra"
+        pInputText
+        name="codigoBarra"
+        [(ngModel)]="productoSelected.codigoBarra"
+        required
+      />
+      <small class="p-error" *ngIf="submitted && !productoSelected.codigoBarra"
+        >Codigo de Barra es requerido.</small
+      >
+    </div>
+    <div class="field">
+      <label for="precio">Precio Unitario</label>
+      <p-inputNumber
+        [(ngModel)]="productoSelected.precio"
+        [showButtons]="true"
+        inputId="minmax"
+        [min]="0"
+        mode="decimal"
+      >
+      </p-inputNumber>
+      <small class="p-error" *ngIf="submitted && !productoSelected.existencia"
+        >Precio Unitario es requerido.</small
+      >
+    </div>
+    <div class="field">
+      <label for="existencia">Existencia</label>
+      <p-inputNumber
+        [(ngModel)]="productoSelected.existencia"
+        [showButtons]="true"
+        inputId="minmax"
+        inputId="minmax"
+        mode="decimal"
+        [min]="0"
+        [max]="500"
+      >
+      </p-inputNumber>
+      <small class="p-error" *ngIf="submitted && !productoSelected.existencia"
+        >Existencia es requerido.</small
+      >
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancelar"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Guardar"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="guardar()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
