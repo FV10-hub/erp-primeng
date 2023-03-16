@@ -1,11 +1,11 @@
 import { Producto } from './producto';
 
-export class ItemFactura {
+export interface ItemFactura {
   producto: Producto;
-  cantidad: number = 1;
+  cantidad: number;
   importe: number;
 
-  public calcularImporte(): number {
+  /*public calcularImporte(): number {
     return this.cantidad * this.producto.precio;
-  }
+  }*/
 }

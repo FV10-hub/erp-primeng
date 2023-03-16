@@ -1,20 +1,19 @@
 import { ItemFactura } from './item-factura';
-import { Cliente } from '../../clientes/cliente';
-
-export class Factura {
+import { Cliente } from './cliente';
+export interface Factura {
   id: number;
   descripcion: string;
   observacion: string;
-  items: Array<ItemFactura> = [];
+  items: ItemFactura[];
   cliente: Cliente;
   total: number;
-  createAt: string;
+  createAt: Date;
 
-  calcularGranTotal(): number {
+  /*calcularGranTotal(): number {
     this.total = 0;
     this.items.forEach((item: ItemFactura) => {
       this.total += item.calcularImporte();
     });
     return this.total;
-  }
+  }*/
 }

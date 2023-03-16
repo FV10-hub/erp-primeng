@@ -15,7 +15,7 @@ export class MenuComponent implements OnInit {
         items: [
           { label: 'Clientes', icon: 'pi pi-fw pi-users', routerLink: 'cliente' },
           { separator: true },
-          { label: 'Factura', icon: 'pi pi-fw pi-chart-line', routerLink: '/' },
+          { label: 'Factura', icon: 'pi pi-fw pi-chart-line', routerLink: 'factura-list' },
           { separator: true },
         ],
       },
