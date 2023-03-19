@@ -3,5 +3,6 @@ export interface Cliente {
   nombreCompleto: string;
   documento:      string;
   telefono:       string;
+  chapa:          string;
   createAt:       Date;
 }

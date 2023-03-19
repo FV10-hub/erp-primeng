@@ -17,7 +17,7 @@ export class FacturaService {
     return this.http.get<Factura[]>(`${this.baseUrl}/api/facturas`);
   }
 
-  getFactura(id: number): Observable<Factura> {
+  getFactura(id: string): Observable<Factura> {
     return this.http.get<Factura>(`${this.baseUrl}/api/facturas/${id}`);
   }
 

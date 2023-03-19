@@ -13,11 +13,13 @@ export class FacturaListComponent implements OnInit {
     id: 0,
     descripcion: '',
     observacion: '',
+    nroFactura: '',
     items: [],
     cliente: {
       nombreCompleto: '',
       documento: '',
       telefono: '',
+      chapa: '',
       createAt: new Date(),
       id: 0,
     },

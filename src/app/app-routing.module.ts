@@ -4,6 +4,7 @@ import { HomePageComponent } from './erp/pages/home-page/home-page.component';
 import { ClientePageComponent } from './erp/pages/cliente-page/cliente-page.component';
 import { ProductoPageComponent } from './erp/pages/producto-page/producto-page.component';
 import { FacturaListComponent } from './erp/pages/facturas/factura-list/factura-list.component';
+import { FacturaFormComponent } from './erp/pages/facturas/factura-form/factura-form.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'factura-list',
     component: FacturaListComponent,
+  },
+  {
+    path: 'factura-form/:id',
+    component: FacturaFormComponent,
   },
   {
     path: '**',

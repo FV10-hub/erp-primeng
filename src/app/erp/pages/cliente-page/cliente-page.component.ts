@@ -16,6 +16,7 @@ export class ClientePageComponent implements OnInit {
     nombreCompleto: '',
     documento: '',
     telefono: '',
+    chapa: '',
     createAt: new Date(),
     id: 0,
   };
@@ -43,6 +44,7 @@ export class ClientePageComponent implements OnInit {
       nombreCompleto: '',
       documento: '',
       telefono: '',
+      chapa: '',
       createAt: new Date(),
       id: 0,
     };
@@ -78,6 +80,7 @@ export class ClientePageComponent implements OnInit {
           nombreCompleto: '',
           documento: '',
           telefono: '',
+          chapa: '',
           createAt: new Date(),
           id: 0,
         };
@@ -93,6 +96,7 @@ export class ClientePageComponent implements OnInit {
 
   guardar() {
     if (this.clienteSelected.id > 0) {
+      console.log(this.clienteSelected);
       this.clienteService.updateCliente(this.clienteSelected).subscribe(
         (clienteActualizado) => {
           if (clienteActualizado) {

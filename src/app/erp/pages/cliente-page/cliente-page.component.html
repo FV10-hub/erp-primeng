@@ -14,7 +14,7 @@
   <div class="col-12">
     <p-table #dt [value]="clientes"
     [rowsPerPageOptions]="[10,25,50]"
-    [globalFilterFields]="['nombreCompleto','documento','telefono']" [tableStyle]="{'min-width': '75rem'}"
+    [globalFilterFields]="['nombreCompleto','documento','telefono', 'chapa']" [tableStyle]="{'min-width': '75rem'}"
     [rows]="10"
     [paginator]="true"
     [(selection)]="clienteSelected"
@@ -34,6 +34,7 @@
       <ng-template pTemplate="header">
         <tr>
           <th>ID</th>
+          <th>Chapa</th>
           <th>Documento</th>
           <th>Nombre y Apellido</th>
           <th>Telefono</th>
@@ -43,6 +44,7 @@
       <ng-template pTemplate="body" let-cliente>
         <tr>
           <td>{{ cliente.id }}</td>
+          <td>{{ cliente.chapa }}</td>
           <td>{{ cliente.documento }}</td>
           <td>{{ cliente.nombreCompleto }}</td>
           <td>{{ cliente.telefono }}</td>
@@ -87,6 +89,19 @@
         class="p-error"
         *ngIf="submitted && !clienteSelected.nombreCompleto"
         >Nombre es requerido.</small
+      >
+    </div>
+    <div class="field">
+      <label for="chapa">Chapa</label>
+      <input
+        id="chapa"
+        pInputText
+        name="chapa"
+        [(ngModel)]="clienteSelected.chapa"
+        required
+      />
+      <small class="p-error" *ngIf="submitted && !clienteSelected.chapa"
+        >Chapa es requerido.</small
       >
     </div>
     <div class="field">

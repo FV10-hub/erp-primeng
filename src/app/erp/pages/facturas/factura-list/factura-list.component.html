@@ -4,6 +4,7 @@
       label="Crear"
       icon="pi pi-plus"
       styleClass="p-button-primary"
+      [routerLink]="['/factura-form', null ]"
     ></p-button>
   </div>
 </div>
@@ -48,6 +49,11 @@
           <td> 001-002-99999 </td>
           <td>{{ factura.createAt | date:'dd/MM/yyyy' }}</td>
           <td>
+            <p-button
+              icon="pi pi-pencil"
+              styleClass="p-button-rounded p-button-success mr-2"
+              [routerLink]="['/factura-form', factura.id ]"
+            ></p-button>
             <p-button
               icon="pi pi-trash"
               styleClass="p-button-rounded p-button-danger"

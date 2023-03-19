@@ -1,1 +1,236 @@
-<p>factura-form works!</p>
+<div class="card">
+  <h3>Factura</h3>
+  <div class="col-12 flex">
+    <div class="col-6">
+      <div class="field grid">
+        <label for="descripcion">Descripcion:</label>
+        <div class="col-6">
+          <input
+            id="descripcion"
+            type="text"
+            id="descripcion"
+            [(ngModel)]="facturaSelected.descripcion"
+            pInputText
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="field grid">
+        <label for="observacion">Observacion:</label>
+        <div class="col-7">
+          <input
+            id="observacion"
+            type="text"
+            id="observacion"
+            [(ngModel)]="facturaSelected.observacion"
+            pInputText
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 flex">
+    <div class="col-3">
+      <div class="field grid">
+        <label for="nroFactura">Nro. Factura:</label>
+        <div class="col">
+          <input
+            id="nroFactura"
+            type="text"
+            id="nroFactura"
+            [(ngModel)]="facturaSelected.nroFactura"
+            pInputText
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="field grid">
+        <label for="fecha">Fecha:</label>
+        <div class="col">
+          <p-calendar
+            id="fecha"
+            dateFormat="dd/mm/yy"
+            [(ngModel)]="facturaSelected.createAt"
+          >
+          </p-calendar>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="field grid">
+        <label for="cliente">Cliente:</label>
+        <div class="col-7">
+          <input
+            id="cliente"
+            type="text"
+            id="cliente"
+            (keyup.f7)="openClientDialog()"
+            [(ngModel)]="facturaSelected.cliente.nombreCompleto"
+            pInputText
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        <button
+          pButton
+          pRipple
+          label="Agregar Producto"
+          icon="pi pi-plus"
+          class="p-button-success mr-2"
+          (click)="openProductDialog()"
+        ></button>
+      </ng-template>
+    </p-toolbar>
+
+    <p-table
+      #dt
+      [value]="facturaSelected.items"
+      [rows]="10"
+      [rowsPerPageOptions]="[10,25,50]"
+      [paginator]="true"
+      [globalFilterFields]="['descripcion', 'codigoBarra']"
+      [tableStyle]="{ 'min-width': '75rem' }"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos"
+      [showCurrentPageReport]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Codigo de Barra</th>
+          <th>Descriocion</th>
+          <th>Precio Unitario</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-items>
+        <tr>
+          <td>{{ items.producto.codigoBarra }}</td>
+          <td>{{ items.producto.descripcion }}</td>
+          <td>{{ items.importe }}</td>
+          <td>
+            <p-button
+              icon="pi pi-trash"
+              styleClass="p-button-rounded p-button-danger"
+              (onClick)="deleteItemProducto(items.producto)"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="clienteDialog"
+  [style]="{ width: '900px' }"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <p-table
+    #dtCliente
+    [value]="clientes"
+    selectionMode="single"
+    [(selection)]="clienteSelected"
+    [globalFilterFields]="['nombreCompleto', 'documento', 'telefono', 'chapa']"
+    ataKey="code"
+    [rows]="10"
+    [paginator]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+    [rowHover]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    (onRowSelect)="onRowClientSelect($event)"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            #textInput
+            type="text"
+            (input)="dtCliente.filterGlobal(textInput.value, 'contains')"
+            placeholder="Buscar..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Chapa</th>
+        <th>Documento</th>
+        <th>Nombre y Apellido</th>
+        <th>Telefono</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-cliente>
+      <tr [pSelectableRow]="cliente">
+        <td>{{ cliente.chapa }}</td>
+        <td>{{ cliente.documento }}</td>
+        <td>{{ cliente.nombreCompleto }}</td>
+        <td>{{ cliente.telefono }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="productoDialog"
+  [style]="{ width: '900px' }"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <p-table
+    #dtProductos
+    [value]="productos"
+    [globalFilterFields]="['descripcion','codigoBarra']"
+    [rows]="10"
+    [paginator]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+    [rowHover]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            #textInput
+            type="text"
+            (input)="dtProductos.filterGlobal(textInput.value, 'contains')"
+            placeholder="Buscar..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Codigo de Barra</th>
+        <th>Descriocion</th>
+        <th>Precio Unitario</th>
+        <th style="width: 5rem"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-producto>
+      <tr>
+        <td>{{ producto.codigoBarra }}</td>
+        <td>{{ producto.descripcion }}</td>
+        <td>{{ producto.precio }}</td>
+        <td>
+          <button type="button" pButton pRipple icon="pi pi-search" (click)="onRowProductSelect(producto)"></button>
+      </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>

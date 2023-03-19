@@ -4,6 +4,7 @@ export interface Factura {
   id: number;
   descripcion: string;
   observacion: string;
+  nroFactura: string;
   items: ItemFactura[];
   cliente: Cliente;
   total: number;

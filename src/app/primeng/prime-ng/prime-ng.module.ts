@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
-import {MenubarModule} from 'primeng/menubar';
-import {ButtonModule} from 'primeng/button';
-import {TableModule} from 'primeng/table';
-import {DialogModule} from 'primeng/dialog';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ToastModule} from 'primeng/toast';
-import {InputTextModule} from 'primeng/inputtext';
-import {InputNumberModule} from 'primeng/inputnumber';
-
-
+import { MenubarModule } from 'primeng/menubar';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CalendarModule } from 'primeng/calendar';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ToolbarModule } from 'primeng/toolbar';
 
 @NgModule({
   declarations: [],
@@ -20,7 +22,11 @@ import {InputNumberModule} from 'primeng/inputnumber';
     ToastModule,
     InputTextModule,
     ConfirmDialogModule,
-    InputNumberModule
-  ]
+    InputNumberModule,
+    CalendarModule,
+    DynamicDialogModule,
+    AutoCompleteModule,
+    ToolbarModule,
+  ],
 })
-export class PrimeNgModule { }
+export class PrimeNgModule {}
