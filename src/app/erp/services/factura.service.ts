@@ -21,4 +21,12 @@ export class FacturaService {
     return this.http.get<Factura>(`${this.baseUrl}/api/facturas/${id}`);
   }
 
+  create(factura: Factura): Observable<Factura> {
+    return this.http.post<Factura>(`${this.baseUrl}/api/facturas`, factura);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/api/facturas/${id}`);
+  }
+
 }

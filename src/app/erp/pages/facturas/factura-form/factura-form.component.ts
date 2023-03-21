@@ -1,22 +1,25 @@
 import { ClientesService } from './../../../services/clientes.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
 import { FacturaService } from '../../../services/factura.service';
 import { Factura } from '../../../interface/factura';
 import { Cliente } from '../../../interface/cliente';
 import { ItemFactura } from '../../../interface/item-factura';
 import { Producto } from '../../../interface/producto';
 import { ProductosService } from '../../../services/productos.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-factura-form',
   templateUrl: './factura-form.component.html',
+  providers: [MessageService],
 })
 export class FacturaFormComponent implements OnInit {
   private id: string = '';
   public clienteDialog: boolean = false;
   public productoDialog: boolean = false;
+  public productoEditDialog: boolean = false;
+  public cantidadItem: number = 0;
   public clientes: Cliente[] = [];
   public productos: Producto[] = [];
   public clienteSelected: Cliente = {
@@ -42,7 +45,7 @@ export class FacturaFormComponent implements OnInit {
     nroFactura: '',
     items: [],
     cliente: this.clienteSelected,
-    total: 0,
+    totalFactura: 0,
     createAt: new Date(),
   };
   public facturaItemSelected: ItemFactura = {
@@ -64,6 +67,7 @@ export class FacturaFormComponent implements OnInit {
     private clienteService: ClientesService,
     private productoService: ProductosService,
     private activatedRoute: ActivatedRoute,
+    private messageService: MessageService,
     private router: Router
   ) {}
 
@@ -88,7 +92,7 @@ export class FacturaFormComponent implements OnInit {
           nroFactura: '',
           items: [],
           cliente: this.clienteSelected,
-          total: 0,
+          totalFactura: 0,
           createAt: new Date(),
         };
         return;
@@ -107,7 +111,13 @@ export class FacturaFormComponent implements OnInit {
 
   onRowProductSelect(producto: Producto) {
     this.productoDialog = false;
-    this.facturaSelected.items.push({id:0,cantidad:1,importe:producto.precio,producto});
+    this.facturaSelected.items.push({
+      id: 0,
+      cantidad: 1,
+      importe: producto.precio,
+      producto,
+      totalLinea: producto.precio,
+    });
   }
 
   openProductDialog() {
@@ -116,7 +126,86 @@ export class FacturaFormComponent implements OnInit {
 
   deleteItemProducto(productoToDelete: Producto) {
     this.facturaSelected.items = this.facturaSelected.items.filter(
-      (productDelete) => productDelete.id !== productoToDelete.id
+      (productDelete) => productDelete.producto.id !== productoToDelete.id
     );
+  }
+
+  openEditItemProduct(productoToEdit: Producto) {
+    this.productoEditDialog = true;
+    this.facturaItemSelected = this.facturaSelected.items.find(
+      (productEdit) => productEdit.producto.id === productoToEdit.id
+    )!;
+    this.cantidadItem = this.facturaItemSelected.cantidad;
+    this.productoSelected = productoToEdit;
+  }
+
+  editItemProduct() {
+    if (this.cantidadItem < this.facturaItemSelected.producto.existencia) {
+      console.log('entro');
+      this.facturaSelected.items.forEach((item) => {
+        if (item.producto.id === this.facturaItemSelected.producto.id) {
+          item.producto = { ...this.facturaItemSelected.producto };
+          item.cantidad = this.cantidadItem;
+          item.totalLinea =
+            this.facturaItemSelected.producto.precio * this.cantidadItem;
+          return item;
+        }
+        return item;
+      });
+      this.productoEditDialog = false;
+      return;
+    }
+    console.log('NO ENtRO');
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'La existencia no es suficiente',
+      life: 3000,
+    });
+    this.productoEditDialog = false;
+  }
+
+  hideEditItemFactura() {
+    this.productoEditDialog = false;
+  }
+
+  guardar(): void {
+    if (this.facturaSelected.items.length == 0) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Debe seleccionar por lo menos 1 item',
+        life: 3000,
+      });
+      return;
+    }
+    this.facturaSelected.id = null;
+    this.facturaSelected.items.forEach((item) => {
+      item.id = null;
+    });
+    this.facturaSelected.totalFactura = this.facturaSelected.items.reduce(
+      (valor_anterior, obj) => valor_anterior + obj.totalLinea!,
+      0
+    );
+    this.facturaService.create(this.facturaSelected).subscribe((factura) => {
+      if (factura) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Hecho',
+          detail: 'Factura con exito!.',
+          life: 3000,
+        });
+        this.router.navigate(['/factura-list']);
+        return;
+      }
+
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Debe seleccionar por lo menos 1 item',
+        life: 3000,
+      });
+    });
+    //console.log(this.facturaSelected);
   }
 }

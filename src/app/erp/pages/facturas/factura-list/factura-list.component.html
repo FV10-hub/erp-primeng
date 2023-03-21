@@ -1,36 +1,46 @@
+<p-toast></p-toast>
 <div class="grid mt-2">
   <div class="col-4">
     <p-button
       label="Crear"
       icon="pi pi-plus"
       styleClass="p-button-primary"
-      [routerLink]="['/factura-form', null ]"
+      [routerLink]="['/factura-form', null]"
     ></p-button>
   </div>
 </div>
 
 <div class="grid">
   <div class="col-12">
-    <p-table #dt [value]="facturas"
-    [rowsPerPageOptions]="[10,25,50]"
-    [globalFilterFields]="['descripcion','cliente.nombreCompleto']" [tableStyle]="{'min-width': '75rem'}"
-    [rows]="10"
-    [paginator]="true"
-    [(selection)]="facturaSelected"
-    [rowHover]="true"
-    dataKey="id"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+    <p-table
+      #dt
+      [value]="facturas"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [globalFilterFields]="['descripcion', 'cliente.nombreCompleto']"
+      [tableStyle]="{ 'min-width': '75rem' }"
+      [rows]="10"
+      [paginator]="true"
+      [(selection)]="facturaSelected"
+      [rowHover]="true"
+      dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [showCurrentPageReport]="true"
     >
       <ng-template pTemplate="caption">
         <div class="flex align-items-center justify-content-between">
-            <h5 class="m-0">Facturas</h5>
-            <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input pInputText #textInput type="text" (input)="dt.filterGlobal(textInput.value, 'contains')" placeholder="Buscar..." />
-            </span>
+          <h5 class="m-0">Facturas</h5>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              #textInput
+              type="text"
+              (input)="dt.filterGlobal(textInput.value, 'contains')"
+              placeholder="Buscar..."
+            />
+          </span>
         </div>
-
-    </ng-template>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
           <th>ID</th>
@@ -38,6 +48,7 @@
           <th>Descripcion</th>
           <th>Numero Factura</th>
           <th>Fecha</th>
+          <th>Total Factura</th>
           <th>Acciones</th>
         </tr>
       </ng-template>
@@ -46,18 +57,14 @@
           <td>{{ factura.id }}</td>
           <td>{{ factura.cliente.nombreCompleto }}</td>
           <td>{{ factura.descripcion }}</td>
-          <td> 001-002-99999 </td>
-          <td>{{ factura.createAt | date:'dd/MM/yyyy' }}</td>
+          <td>{{ factura.nroFactura }}</td>
+          <td>{{ factura.createAt | date : "dd/MM/yyyy" }}</td>
+          <td>{{ factura.totalFactura | number:'1.0-0' }}</td>
           <td>
-            <p-button
-              icon="pi pi-pencil"
-              styleClass="p-button-rounded p-button-success mr-2"
-              [routerLink]="['/factura-form', factura.id ]"
-            ></p-button>
             <p-button
               icon="pi pi-trash"
               styleClass="p-button-rounded p-button-danger"
-              (onClick)="deleteFactura(factura)"
+              (onClick)="deleteFactura(factura.id)"
             ></p-button>
           </td>
         </tr>
@@ -65,3 +72,4 @@
     </p-table>
   </div>
 </div>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

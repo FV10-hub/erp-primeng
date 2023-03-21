@@ -1,5 +1,18 @@
+<p-toast></p-toast>
 <div class="card">
-  <h3>Factura</h3>
+  <div class="col-4">
+    <p-button
+      label="Guardar"
+      [ngStyle]="
+        facturaSelected.cliente.id > 0 && facturaSelected.items.length > 0
+          ? { display: 'block' }
+          : { display: 'none' }
+      "
+      icon="pi pi-save"
+      styleClass="p-button-primary"
+      (click)="guardar()"
+    ></p-button>
+  </div>
   <div class="col-12 flex">
     <div class="col-6">
       <div class="field grid">
@@ -67,6 +80,7 @@
         <div class="col-7">
           <input
             id="cliente"
+            placeholder="Presione F7 para buscar..."
             type="text"
             id="cliente"
             (keyup.f7)="openClientDialog()"
@@ -81,14 +95,18 @@
   <div class="card">
     <p-toolbar styleClass="mb-4 gap-2">
       <ng-template pTemplate="left">
-        <button
-          pButton
+        <p-button
+          [ngStyle]="
+            facturaSelected.cliente.id > 0
+              ? { display: 'block' }
+              : { display: 'none' }
+          "
           pRipple
           label="Agregar Producto"
           icon="pi pi-plus"
-          class="p-button-success mr-2"
+          styleClass="p-button-success"
           (click)="openProductDialog()"
-        ></button>
+        ></p-button>
       </ng-template>
     </p-toolbar>
 
@@ -96,7 +114,7 @@
       #dt
       [value]="facturaSelected.items"
       [rows]="10"
-      [rowsPerPageOptions]="[10,25,50]"
+      [rowsPerPageOptions]="[10, 25, 50]"
       [paginator]="true"
       [globalFilterFields]="['descripcion', 'codigoBarra']"
       [tableStyle]="{ 'min-width': '75rem' }"
@@ -107,7 +125,9 @@
         <tr>
           <th>Codigo de Barra</th>
           <th>Descriocion</th>
+          <th>Cantidad</th>
           <th>Precio Unitario</th>
+          <th>Total Linea</th>
           <th>Acciones</th>
         </tr>
       </ng-template>
@@ -115,8 +135,17 @@
         <tr>
           <td>{{ items.producto.codigoBarra }}</td>
           <td>{{ items.producto.descripcion }}</td>
-          <td>{{ items.importe }}</td>
+          <td>{{ items.cantidad }}</td>
+          <td>{{ items.importe | number : "1.0-0" }}</td>
+          <td>{{ items.totalLinea | number : "1.0-0" }}</td>
           <td>
+            <button
+              pButton
+              pRipple
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-success mr-2"
+              (click)="openEditItemProduct(items.producto)"
+            ></button>
             <p-button
               icon="pi pi-trash"
               styleClass="p-button-rounded p-button-danger"
@@ -192,7 +221,7 @@
   <p-table
     #dtProductos
     [value]="productos"
-    [globalFilterFields]="['descripcion','codigoBarra']"
+    [globalFilterFields]="['descripcion', 'codigoBarra']"
     [rows]="10"
     [paginator]="true"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
@@ -219,6 +248,7 @@
         <th>Codigo de Barra</th>
         <th>Descriocion</th>
         <th>Precio Unitario</th>
+        <th>Existencia</th>
         <th style="width: 5rem"></th>
       </tr>
     </ng-template>
@@ -226,11 +256,63 @@
       <tr>
         <td>{{ producto.codigoBarra }}</td>
         <td>{{ producto.descripcion }}</td>
-        <td>{{ producto.precio }}</td>
+        <td>{{ producto.precio | number : "1.0-0" }}</td>
+        <td>{{ producto.existencia }}</td>
         <td>
-          <button type="button" pButton pRipple icon="pi pi-search" (click)="onRowProductSelect(producto)"></button>
-      </td>
+          <button
+            type="button"
+            pButton
+            pRipple
+            icon="pi pi-send"
+            (click)="onRowProductSelect(producto)"
+          ></button>
+        </td>
       </tr>
     </ng-template>
   </p-table>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="productoEditDialog"
+  [style]="{ width: '450px' }"
+  header="Product Details"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="name">Descripcion</label>
+      <input
+        type="text"
+        pInputText
+        id="name"
+        [(ngModel)]="facturaItemSelected.producto.descripcion"
+        required
+        autofocus
+      />
+    </div>
+    <div class="field">
+      <label for="cantidad">Cantidad</label>
+      <p-inputNumber id="price" [(ngModel)]="cantidadItem"></p-inputNumber>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancelar"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideEditItemFactura()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Guardar"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="editItemProduct()"
+    ></button>
+  </ng-template>
 </p-dialog>

@@ -1,13 +1,13 @@
 import { ItemFactura } from './item-factura';
 import { Cliente } from './cliente';
 export interface Factura {
-  id: number;
+  id: number | null;
   descripcion: string;
   observacion: string;
   nroFactura: string;
   items: ItemFactura[];
   cliente: Cliente;
-  total: number;
+  totalFactura: number;
   createAt: Date;
 
   /*calcularGranTotal(): number {
