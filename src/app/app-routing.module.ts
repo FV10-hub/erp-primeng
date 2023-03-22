@@ -5,6 +5,7 @@ import { ClientePageComponent } from './erp/pages/cliente-page/cliente-page.comp
 import { ProductoPageComponent } from './erp/pages/producto-page/producto-page.component';
 import { FacturaListComponent } from './erp/pages/facturas/factura-list/factura-list.component';
 import { FacturaFormComponent } from './erp/pages/facturas/factura-form/factura-form.component';
+import { ProveedorPageComponent } from './erp/pages/proveedor-page/proveedor-page.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'producto',
     component: ProductoPageComponent,
+  },
+  {
+    path: 'proveedor',
+    component: ProveedorPageComponent,
   },
   {
     path: 'factura-list',

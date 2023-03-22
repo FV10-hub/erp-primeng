@@ -85,3 +85,21 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.facturas_detalles
     OWNER to postgres;
+
+--proveedores
+CREATE TABLE public.proveedor
+(
+    id bigint NOT NULL DEFAULT nextval('proveedor_id_seq'::regclass),
+    create_at date,
+    documento character varying(255) COLLATE pg_catalog."default",
+    nombre_completo character varying(255) COLLATE pg_catalog."default",
+    telefono character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT proveedor_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.proveedor
+    OWNER to postgres;

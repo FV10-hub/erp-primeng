@@ -23,6 +23,8 @@ export class MenuComponent implements OnInit {
         label: 'Compras',
         icon: 'pi pi-cart-plus',
         items: [
+          { label: 'Proveedores', icon: 'pi pi-fw pi-user-minus', routerLink: 'proveedor' },
+          { separator: true },
           { label: 'Compras', icon: 'pi pi-fw pi-truck', routerLink: '' },
           { separator: true },
           { label: 'Articulos', icon: 'pi pi-fw pi-tag', routerLink: 'producto' },
