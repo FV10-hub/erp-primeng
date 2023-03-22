@@ -8,6 +8,8 @@ import { PrimeNgModule } from '../primeng/prime-ng/prime-ng.module';
 import { FacturaFormComponent } from './pages/facturas/factura-form/factura-form.component';
 import { FacturaListComponent } from './pages/facturas/factura-list/factura-list.component';
 import { ProveedorPageComponent } from './pages/proveedor-page/proveedor-page.component';
+import { CompraListComponent } from './pages/compras/compra-list/compra-list.component';
+import { CompraFormComponent } from './pages/compras/compra-form/compra-form.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { ProveedorPageComponent } from './pages/proveedor-page/proveedor-page.co
     FacturaFormComponent,
     FacturaListComponent,
     ProveedorPageComponent,
+    CompraListComponent,
+    CompraFormComponent,
   ],
   imports: [CommonModule, PrimeNgModule, FormsModule],
   exports: [
@@ -25,7 +29,9 @@ import { ProveedorPageComponent } from './pages/proveedor-page/proveedor-page.co
     ProductoPageComponent,
     FacturaFormComponent,
     FacturaListComponent,
-    ProveedorPageComponent
+    ProveedorPageComponent,
+    CompraListComponent,
+    CompraFormComponent
   ],
 })
 export class ErpModule {}

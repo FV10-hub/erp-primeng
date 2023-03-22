@@ -1,0 +1,316 @@
+<p-toast></p-toast>
+<div class="card">
+  <div class="col-4">
+    <p-button
+      label="Guardar"
+      [ngStyle]="
+        compraSelected.proveedor.id > 0 && compraSelected.items.length > 0
+          ? { display: 'block' }
+          : { display: 'none' }
+      "
+      icon="pi pi-save"
+      styleClass="p-button-primary"
+      (click)="guardar()"
+    ></p-button>
+  </div>
+  <div class="col-12 flex">
+    <div class="col-6">
+      <div class="field grid">
+        <label for="descripcion">Descripcion:</label>
+        <div class="col-6">
+          <input
+            id="descripcion"
+            type="text"
+            id="descripcion"
+            [(ngModel)]="compraSelected.descripcion"
+            pInputText
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="field grid">
+        <label for="observacion">Observacion:</label>
+        <div class="col-7">
+          <input
+            id="observacion"
+            type="text"
+            id="observacion"
+            [(ngModel)]="compraSelected.observacion"
+            pInputText
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 flex">
+    <div class="col-3">
+      <div class="field grid">
+        <label for="nroFactura">Nro. Factura:</label>
+        <div class="col">
+          <input
+            id="nroFactura"
+            type="text"
+            id="nroFactura"
+            [(ngModel)]="compraSelected.nroFactura"
+            pInputText
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="field grid">
+        <label for="fecha">Fecha:</label>
+        <div class="col">
+          <p-calendar
+            id="fecha"
+            dateFormat="dd/mm/yy"
+            [(ngModel)]="compraSelected.createAt"
+          >
+          </p-calendar>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="field grid">
+        <label for="proveedor">Proveedor:</label>
+        <div class="col-7">
+          <input
+            id="proveedor"
+            placeholder="Presione F7 para buscar..."
+            type="text"
+            id="proveedor"
+            (keyup.f7)="openProveedorDialog()"
+            [(ngModel)]="compraSelected.proveedor.nombreCompleto"
+            pInputText
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        <p-button
+          [ngStyle]="
+            compraSelected.proveedor.id > 0
+              ? { display: 'block' }
+              : { display: 'none' }
+          "
+          pRipple
+          label="Agregar Producto"
+          icon="pi pi-plus"
+          styleClass="p-button-success"
+          (click)="openProductDialog()"
+        ></p-button>
+      </ng-template>
+    </p-toolbar>
+
+    <p-table
+      #dt
+      [value]="compraSelected.items"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [paginator]="true"
+      [globalFilterFields]="['descripcion', 'codigoBarra']"
+      [tableStyle]="{ 'min-width': '75rem' }"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos"
+      [showCurrentPageReport]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Codigo de Barra</th>
+          <th>Descriocion</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Total Linea</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-items>
+        <tr>
+          <td>{{ items.producto.codigoBarra }}</td>
+          <td>{{ items.producto.descripcion }}</td>
+          <td>{{ items.cantidad }}</td>
+          <td>{{ items.importe | number : "1.0-0" }}</td>
+          <td>{{ items.totalLinea | number : "1.0-0" }}</td>
+          <td>
+            <button
+              pButton
+              pRipple
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-success mr-2"
+              (click)="openEditItemProduct(items.producto)"
+            ></button>
+            <p-button
+              icon="pi pi-trash"
+              styleClass="p-button-rounded p-button-danger"
+              (onClick)="deleteItemProducto(items.producto)"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="proveedorDialog"
+  [style]="{ width: '900px' }"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <p-table
+    #dtCliente
+    [value]="proveedores"
+    selectionMode="single"
+    [(selection)]="proveedorSelected"
+    [globalFilterFields]="['nombreCompleto', 'documento', 'telefono']"
+    ataKey="code"
+    [rows]="10"
+    [paginator]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+    [rowHover]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    (onRowSelect)="onRowProveedorSelect($event)"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            #textInput
+            type="text"
+            (input)="dtCliente.filterGlobal(textInput.value, 'contains')"
+            placeholder="Buscar..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Documento</th>
+        <th>Nombre y Apellido</th>
+        <th>Telefono</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-proveedor>
+      <tr [pSelectableRow]="proveedor">
+        <td>{{ proveedor.documento }}</td>
+        <td>{{ proveedor.nombreCompleto }}</td>
+        <td>{{ proveedor.telefono }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="productoDialog"
+  [style]="{ width: '900px' }"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <p-table
+    #dtProductos
+    [value]="productos"
+    [globalFilterFields]="['descripcion', 'codigoBarra']"
+    [rows]="10"
+    [paginator]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+    [rowHover]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            #textInput
+            type="text"
+            (input)="dtProductos.filterGlobal(textInput.value, 'contains')"
+            placeholder="Buscar..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Codigo de Barra</th>
+        <th>Descriocion</th>
+        <th>Precio Unitario</th>
+        <th>Existencia</th>
+        <th style="width: 5rem"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-producto>
+      <tr>
+        <td>{{ producto.codigoBarra }}</td>
+        <td>{{ producto.descripcion }}</td>
+        <td>{{ producto.precio | number : "1.0-0" }}</td>
+        <td>{{ producto.existencia }}</td>
+        <td>
+          <button
+            type="button"
+            pButton
+            pRipple
+            icon="pi pi-send"
+            (click)="onRowProductSelect(producto)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="productoEditDialog"
+  [style]="{ width: '450px' }"
+  header="Product Details"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="name">Descripcion</label>
+      <input
+        type="text"
+        pInputText
+        id="name"
+        [(ngModel)]="compraItemSelected.producto.descripcion"
+        required
+        autofocus
+      />
+    </div>
+    <div class="field">
+      <label for="cantidad">Cantidad</label>
+      <p-inputNumber id="price" [(ngModel)]="cantidadItem"></p-inputNumber>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancelar"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideEditItemCompra()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Guardar"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="editItemProduct()"
+    ></button>
+  </ng-template>
+</p-dialog>

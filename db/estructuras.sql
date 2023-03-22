@@ -103,3 +103,54 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.proveedor
     OWNER to postgres;
+
+
+--compras
+CREATE TABLE public.compras
+(
+    id bigint NOT NULL DEFAULT nextval('compras_id_seq'::regclass),
+    create_at date,
+    descripcion character varying(255) COLLATE pg_catalog."default",
+    nro_factura character varying(255) COLLATE pg_catalog."default",
+    observacion character varying(255) COLLATE pg_catalog."default",
+    total_compra numeric(38, 2),
+    proveedor_id bigint,
+    CONSTRAINT compras_pkey PRIMARY KEY (id),
+    CONSTRAINT fk5clsikm051qlae1d6xjkpaik6 FOREIGN KEY (proveedor_id)
+        REFERENCES public.proveedor (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.compras
+    OWNER to postgres;
+
+--compras detalle
+CREATE TABLE public.compras_detalles
+(
+    id bigint NOT NULL DEFAULT nextval('compras_detalles_id_seq'::regclass),
+    cantidad integer,
+    total_linea numeric(38, 2),
+    producto_id bigint,
+    compra_id bigint,
+    CONSTRAINT compras_detalles_pkey PRIMARY KEY (id),
+    CONSTRAINT fk3otvyak6obfnc1qt9fo03vqbl FOREIGN KEY (producto_id)
+        REFERENCES public.productos (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fknh214xmdog1hmmt03isq45l0i FOREIGN KEY (compra_id)
+        REFERENCES public.compras (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.compras_detalles
+    OWNER to postgres;
