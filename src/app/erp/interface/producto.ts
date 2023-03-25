@@ -3,6 +3,7 @@ export interface Producto {
   descripcion: string;
   codigoBarra: string;
   precio:      number;
+  precioCosto?: number;
   existencia:  number;
   createAt:    Date;
 }

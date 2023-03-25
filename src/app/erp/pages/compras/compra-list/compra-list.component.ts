@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { Compra } from '../../../interface/compra';
@@ -9,9 +9,27 @@ import { CompraService } from '../../../services/compra.service';
   templateUrl: './compra-list.component.html',
   providers: [MessageService, ConfirmationService],
 })
-export class CompraListComponent  implements OnInit {
+export class CompraListComponent implements OnInit {
+  public viewCompra: boolean = false;
   public compras: Compra[] = [];
   public compraSelected: Compra = {
+    id: 0,
+    descripcion: '',
+    observacion: '',
+    nroFactura: '',
+    items: [],
+    proveedor: {
+      nombreCompleto: '',
+      documento: '',
+      telefono: '',
+      createAt: new Date(),
+      id: 0,
+    },
+    totalCompra: 0,
+    createAt: new Date(),
+  };
+
+  public compraToView: Compra = {
     id: 0,
     descripcion: '',
     observacion: '',
@@ -59,5 +77,30 @@ export class CompraListComponent  implements OnInit {
         });
       },
     });
+  }
+
+  view(compra: Compra) {
+    this.viewCompra = true;
+    this.compraToView = compra;
+  }
+
+  hideViewDialog() {
+    this.viewCompra = false;
+    this.compraToView = {
+      id: 0,
+      descripcion: '',
+      observacion: '',
+      nroFactura: '',
+      items: [],
+      proveedor: {
+        nombreCompleto: '',
+        documento: '',
+        telefono: '',
+        createAt: new Date(),
+        id: 0,
+      },
+      totalCompra: 0,
+      createAt: new Date(),
+    };
   }
 }

@@ -26,6 +26,7 @@ CREATE TABLE public.productos
     descripcion character varying(255) COLLATE pg_catalog."default",
     existencia integer,
     precio double precision,
+    precio_costo double precision,
     CONSTRAINT productos_pkey PRIMARY KEY (id)
 )
 WITH (

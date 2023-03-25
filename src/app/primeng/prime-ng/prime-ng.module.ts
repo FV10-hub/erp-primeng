@@ -11,6 +11,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToolbarModule } from 'primeng/toolbar';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [],
@@ -27,6 +28,7 @@ import { ToolbarModule } from 'primeng/toolbar';
     DynamicDialogModule,
     AutoCompleteModule,
     ToolbarModule,
+    ChartModule
   ],
 })
 export class PrimeNgModule {}

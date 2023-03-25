@@ -10,8 +10,27 @@ import { Factura } from '../../../interface/factura';
   providers: [MessageService, ConfirmationService],
 })
 export class FacturaListComponent implements OnInit {
+  public viewFactura: boolean = false;
   public facturas: Factura[] = [];
   public facturaSelected: Factura = {
+    id: 0,
+    descripcion: '',
+    observacion: '',
+    nroFactura: '',
+    items: [],
+    cliente: {
+      nombreCompleto: '',
+      documento: '',
+      telefono: '',
+      chapa: '',
+      createAt: new Date(),
+      id: 0,
+    },
+    totalFactura: 0,
+    createAt: new Date(),
+  };
+
+  public facturaToView: Factura = {
     id: 0,
     descripcion: '',
     observacion: '',
@@ -61,5 +80,31 @@ export class FacturaListComponent implements OnInit {
         });
       },
     });
+  }
+
+  view(factura: Factura) {
+    this.viewFactura = true;
+    this.facturaToView = factura;
+  }
+
+  hideViewDialog() {
+    this.viewFactura = false;
+    this.facturaToView = {
+      id: 0,
+      descripcion: '',
+      observacion: '',
+      nroFactura: '',
+      items: [],
+      cliente: {
+        nombreCompleto: '',
+        documento: '',
+        telefono: '',
+        chapa: '',
+        createAt: new Date(),
+        id: 0,
+      },
+      totalFactura: 0,
+      createAt: new Date(),
+    };
   }
 }

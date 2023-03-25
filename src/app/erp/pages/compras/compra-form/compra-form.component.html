@@ -245,7 +245,7 @@
       <tr>
         <th>Codigo de Barra</th>
         <th>Descriocion</th>
-        <th>Precio Unitario</th>
+        <th>Precio Costo</th>
         <th>Existencia</th>
         <th style="width: 5rem"></th>
       </tr>
@@ -254,7 +254,7 @@
       <tr>
         <td>{{ producto.codigoBarra }}</td>
         <td>{{ producto.descripcion }}</td>
-        <td>{{ producto.precio | number : "1.0-0" }}</td>
+        <td>{{ producto.precioCosto | number : "1.0-0" }}</td>
         <td>{{ producto.existencia }}</td>
         <td>
           <button

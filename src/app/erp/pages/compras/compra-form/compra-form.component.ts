@@ -114,7 +114,7 @@ export class CompraFormComponent implements OnInit {
       id: 0,
       cantidad: 1,
       producto,
-      totalLinea: producto.precio,
+      totalLinea: producto.precioCosto,
     });
   }
 
@@ -143,7 +143,7 @@ export class CompraFormComponent implements OnInit {
         item.producto = { ...this.compraItemSelected.producto };
         item.cantidad = this.cantidadItem;
         item.totalLinea =
-          this.compraItemSelected.producto.precio * this.cantidadItem;
+          this.compraItemSelected.producto.precioCosto ?? 0 * this.cantidadItem;
         return item;
       }
       return item;
