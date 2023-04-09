@@ -8,6 +8,8 @@ import { FacturaListComponent } from './erp/pages/facturas/factura-list/factura-
 import { FacturaFormComponent } from './erp/pages/facturas/factura-form/factura-form.component';
 import { ProveedorPageComponent } from './erp/pages/proveedor-page/proveedor-page.component';
 import { CompraFormComponent } from './erp/pages/compras/compra-form/compra-form.component';
+import { AjusteListComponent } from './erp/pages/ajusteStock/ajuste-list/ajuste-list.component';
+import { AjusteFormComponent } from './erp/pages/ajusteStock/ajuste-form/ajuste-form.component';
 
 const routes: Routes = [
   {
@@ -41,6 +43,14 @@ const routes: Routes = [
   {
     path: 'compra-form/:id',
     component: CompraFormComponent,
+  },
+  {
+    path: 'ajuste-list',
+    component: AjusteListComponent,
+  },
+  {
+    path: 'ajuste-form/:id',
+    component: AjusteFormComponent,
   },
   {
     path: '**',

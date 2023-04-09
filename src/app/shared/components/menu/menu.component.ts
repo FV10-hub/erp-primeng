@@ -33,6 +33,8 @@ export class MenuComponent implements OnInit {
           { label: 'Compras', icon: 'pi pi-fw pi-truck', routerLink: 'compra-list' },
           { separator: true },
           { label: 'Articulos', icon: 'pi pi-fw pi-tag', routerLink: 'producto' },
+          { separator: true },
+          { label: 'Ajustes de Stock', icon: 'pi pi-fw pi-sort-alt', routerLink: 'ajuste-list' },
         ],
       },
     ];

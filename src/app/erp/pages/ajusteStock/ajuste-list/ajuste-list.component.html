@@ -1,0 +1,187 @@
+<p-toast></p-toast>
+<div class="grid mt-2">
+  <div class="col-4">
+    <p-button
+      label="Crear"
+      icon="pi pi-plus"
+      styleClass="p-button-primary"
+      [routerLink]="['/ajuste-form', null]"
+    ></p-button>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="col-12">
+    <p-table
+      #dt
+      [value]="ajusteStocks"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [globalFilterFields]="['descripcion', 'proveedor.nombreCompleto']"
+      [tableStyle]="{ 'min-width': '75rem' }"
+      [rows]="10"
+      [paginator]="true"
+      [(selection)]="ajusteStockSelected"
+      [rowHover]="true"
+      dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [showCurrentPageReport]="true"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          <h5 class="m-0">Ajustes de Stock</h5>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              #textInput
+              type="text"
+              (input)="dt.filterGlobal(textInput.value, 'contains')"
+              placeholder="Buscar..."
+            />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Proveedor</th>
+          <th>Observacion</th>
+          <th>Fecha</th>
+          <th>Total Costo</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-ajusteStock>
+        <tr>
+          <td>{{ ajusteStock.id }}</td>
+          <td>{{ ajusteStock.proveedor.nombreCompleto }}</td>
+          <td>{{ ajusteStock.observacion }}</td>
+          <td>{{ ajusteStock.createAt | date : "dd/MM/yyyy" }}</td>
+          <td>{{ ajusteStock.totalCosto | number : "1.0-0" }}</td>
+          <td>
+            <p-button
+              icon="pi pi-eye"
+              styleClass="p-button-rounded p-button-success mr-2"
+              (onClick)="view(ajusteStock)"
+            ></p-button>
+            <p-button
+              icon="pi pi-trash"
+              styleClass="p-button-rounded p-button-danger"
+              (onClick)="deleteAjusteStock(ajusteStock.id)"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="viewAjusteStock"
+  [ngStyle]="{ width: '85%', height: '70%' }"
+  header="Vista de la Ajuste Stock"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="card">
+      <div class="col-12 flex">
+        <div class="col-6">
+          <div class="field grid">
+            <label for="observacion">Observacion:</label>
+            <div class="col-7">
+              <input
+                [disabled]="true"
+                id="observacion"
+                type="text"
+                id="observacion"
+                [value]="ajusteStockToView.observacion"
+                pInputText
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 flex">
+        <div class="col-3">
+          <div class="field grid">
+            <label for="fecha">Fecha:</label>
+            <div class="col">
+              <input
+                [disabled]="true"
+                id="fecha"
+                type="text"
+                [value]="ajusteStockToView.createAt | date : 'dd/MM/yyyy'"
+                pInputText
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="field grid">
+            <label for="proveedor">Proveedor:</label>
+            <div class="col-7">
+              <input
+                [disabled]="true"
+                id="proveedor"
+                placeholder="Presione F7 para buscar..."
+                type="text"
+                id="proveedor"
+                [(ngModel)]="ajusteStockToView.proveedor.nombreCompleto"
+                pInputText
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <p-table
+          #dt
+          [value]="ajusteStockToView.items"
+          [rows]="10"
+          [rowsPerPageOptions]="[10, 25, 50]"
+          [paginator]="true"
+          [globalFilterFields]="['descripcion', 'codigoBarra']"
+          [tableStyle]="{ 'min-width': '75rem' }"
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos"
+          [showCurrentPageReport]="true"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Codigo de Barra</th>
+              <th>Descriocion</th>
+              <th>Cantidad</th>
+              <th>Costo Unitario</th>
+              <th>Total Linea</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-items>
+            <tr>
+              <td>{{ items.producto.codigoBarra }}</td>
+              <td>{{ items.producto.descripcion }}</td>
+              <td>{{ items.cantidad }}</td>
+              <td>{{ items.producto.precioCosto | number : "1.0-0" }}</td>
+              <td>{{ items.totalLinea | number : "1.0-0" }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cerrar"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideViewDialog()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
