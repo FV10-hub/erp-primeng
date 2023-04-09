@@ -155,3 +155,51 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.compras_detalles
     OWNER to postgres;
+
+--ajustes
+CREATE TABLE public.ajuste_stock
+(
+    id bigint NOT NULL DEFAULT nextval('ajuste_stock_id_seq'::regclass),
+    create_at date,
+    observacion character varying(255) COLLATE pg_catalog."default",
+    total_costo numeric(38, 2),
+    proveedor_id bigint,
+    CONSTRAINT ajuste_stock_pkey PRIMARY KEY (id),
+    CONSTRAINT fknqca7i07vwwinho5bam2u1k4m FOREIGN KEY (proveedor_id)
+        REFERENCES public.proveedor (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.ajuste_stock
+    OWNER to postgres;
+
+--ajustes detalles
+CREATE TABLE public.ajuste_stock_detalle
+(
+    id bigint NOT NULL DEFAULT nextval('ajuste_stock_detalle_id_seq'::regclass),
+    cantidad integer,
+    total_linea numeric(38, 2),
+    producto_id bigint,
+    ajuste_stock_id bigint,
+    CONSTRAINT ajuste_stock_detalle_pkey PRIMARY KEY (id),
+    CONSTRAINT fk6yhrgv0ppb04hohq78b5po80h FOREIGN KEY (ajuste_stock_id)
+        REFERENCES public.ajuste_stock (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkimuhaj41un7w8ypyqe8ovs8vf FOREIGN KEY (producto_id)
+        REFERENCES public.productos (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.ajuste_stock_detalle
+    OWNER to postgres;
