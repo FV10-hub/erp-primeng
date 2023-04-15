@@ -121,6 +121,20 @@
       >
     </div>
     <div class="field">
+      <label for="precio">Precio Costo</label>
+      <p-inputNumber
+        [(ngModel)]="productoSelected.precioCosto"
+        [showButtons]="true"
+        inputId="minmax"
+        [min]="0"
+        mode="decimal"
+      >
+      </p-inputNumber>
+      <small class="p-error" *ngIf="submitted && !productoSelected.existencia"
+        >Precio Unitario es requerido.</small
+      >
+    </div>
+    <div class="field">
       <label for="existencia">Existencia</label>
       <p-inputNumber
         [(ngModel)]="productoSelected.existencia"
