@@ -126,7 +126,7 @@
           <th>Codigo de Barra</th>
           <th>Descriocion</th>
           <th>Cantidad</th>
-          <th>Precio Unitario</th>
+          <th>Costo Unitario</th>
           <th>Total Linea</th>
           <th>Acciones</th>
         </tr>
@@ -136,7 +136,7 @@
           <td>{{ items.producto.codigoBarra }}</td>
           <td>{{ items.producto.descripcion }}</td>
           <td>{{ items.cantidad }}</td>
-          <td>{{ items.importe | number : "1.0-0" }}</td>
+          <td>{{ items.producto.precioCosto | number : "1.0-0" }}</td>
           <td>{{ items.totalLinea | number : "1.0-0" }}</td>
           <td>
             <button
@@ -154,6 +154,16 @@
           </td>
         </tr>
       </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-end">
+          <div class="flex align-items-center ml-auto">
+              Total Iva: {{ totalIva | number : "1.0-2" }}
+          </div>
+          <div class="flex align-items-center ml-auto">
+              Total Compra: {{ totalComprobante | number : "1.0-0" }}
+        </div>
+        </div>
+    </ng-template>
     </p-table>
   </div>
 </div>
@@ -273,7 +283,7 @@
 <p-dialog
   [(visible)]="productoEditDialog"
   [style]="{ width: '450px' }"
-  header="Product Details"
+  header="Detalle de Productos"
   [modal]="true"
   styleClass="p-fluid"
 >
@@ -285,8 +295,6 @@
         pInputText
         id="name"
         [(ngModel)]="compraItemSelected.producto.descripcion"
-        required
-        autofocus
       />
     </div>
     <div class="field">

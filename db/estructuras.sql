@@ -203,3 +203,61 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.ajuste_stock_detalle
     OWNER to postgres;
+
+CREATE OR REPLACE FUNCTION actualizar_existencia()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE public.productos SET existencia = existencia - NEW.cantidad WHERE id = NEW.producto_id;
+    RETURN NEW;
+  ELSIF TG_OP = 'DELETE' THEN
+    UPDATE public.productos SET existencia = existencia + OLD.cantidad WHERE id = OLD.producto_id;
+    RETURN OLD;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER actualizar_existencia_ventas
+AFTER INSERT OR DELETE ON facturas_detalles
+FOR EACH ROW
+EXECUTE PROCEDURE actualizar_existencia();
+
+
+CREATE OR REPLACE FUNCTION actualizar_existencia_compras()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE public.productos SET existencia = existencia + NEW.cantidad WHERE id = NEW.producto_id;
+    RETURN NEW;
+  ELSIF TG_OP = 'DELETE' THEN
+    UPDATE public.productos SET existencia = existencia - OLD.cantidad WHERE id = OLD.producto_id;
+    RETURN OLD;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER actualizar_existencia_compras
+AFTER INSERT OR DELETE ON compras_detalles
+FOR EACH ROW
+EXECUTE PROCEDURE actualizar_existencia_compras();
+
+
+
+CREATE OR REPLACE FUNCTION actualizar_existencia_inventario()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE public.productos SET existencia = NEW.cantidad WHERE id = NEW.producto_id;
+    RETURN NEW;
+  ELSIF TG_OP = 'DELETE' THEN
+    UPDATE public.productos SET existencia = OLD.cantidad WHERE id = OLD.producto_id;
+    RETURN OLD;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER actualizar_existencia_ajuste
+AFTER INSERT OR DELETE ON ajuste_stock_detalle
+FOR EACH ROW
+EXECUTE PROCEDURE actualizar_existencia_inventario();
+

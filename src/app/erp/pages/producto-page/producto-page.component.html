@@ -86,8 +86,6 @@
         id="descripcion"
         name="descripcion"
         [(ngModel)]="productoSelected.descripcion"
-        required
-        autofocus
       />
       <small class="p-error" *ngIf="submitted && !productoSelected.descripcion"
         >Descriocion es requerido.</small
@@ -100,7 +98,6 @@
         pInputText
         name="codigoBarra"
         [(ngModel)]="productoSelected.codigoBarra"
-        required
       />
       <small class="p-error" *ngIf="submitted && !productoSelected.codigoBarra"
         >Codigo de Barra es requerido.</small

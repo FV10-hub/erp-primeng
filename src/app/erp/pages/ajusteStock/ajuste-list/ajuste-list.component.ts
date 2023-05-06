@@ -15,13 +15,6 @@ export class AjusteListComponent implements OnInit {
     id: 0,
     observacion: '',
     items: [],
-    proveedor: {
-      nombreCompleto: '',
-      documento: '',
-      telefono: '',
-      createAt: new Date(),
-      id: 0,
-    },
     totalCosto: 0,
     createAt: new Date(),
   };
@@ -30,13 +23,6 @@ export class AjusteListComponent implements OnInit {
     id: 0,
     observacion: '',
     items: [],
-    proveedor: {
-      nombreCompleto: '',
-      documento: '',
-      telefono: '',
-      createAt: new Date(),
-      id: 0,
-    },
     totalCosto: 0,
     createAt: new Date(),
   };
@@ -85,13 +71,6 @@ export class AjusteListComponent implements OnInit {
       id: 0,
       observacion: '',
       items: [],
-      proveedor: {
-        nombreCompleto: '',
-        documento: '',
-        telefono: '',
-        createAt: new Date(),
-        id: 0,
-      },
       totalCosto: 0,
       createAt: new Date(),
     };

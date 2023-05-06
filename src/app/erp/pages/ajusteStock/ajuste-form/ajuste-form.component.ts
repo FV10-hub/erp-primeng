@@ -16,19 +16,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AjusteFormComponent  implements OnInit {
   private id: string = '';
-  public proveedorDialog: boolean = false;
   public productoDialog: boolean = false;
   public productoEditDialog: boolean = false;
   public cantidadItem: number = 0;
-  public proveedores: Proveedor[] = [];
   public productos: Producto[] = [];
-  public proveedorSelected: Proveedor = {
-    nombreCompleto: '',
-    documento: '',
-    telefono: '',
-    createAt: new Date(),
-    id: 0,
-  };
   public productoSelected: Producto = {
     id: 0,
     descripcion: '',
@@ -41,7 +32,6 @@ export class AjusteFormComponent  implements OnInit {
     id: 0,
     observacion: '',
     items: [],
-    proveedor: this.proveedorSelected,
     totalCosto: 0,
     createAt: new Date(),
   };
@@ -69,9 +59,6 @@ export class AjusteFormComponent  implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.proveedorService.getProveedores().subscribe((proveedores) => {
-      this.proveedores = proveedores;
-    });
     this.productoService.getProductos().subscribe((productos) => {
       this.productos = productos;
     });
@@ -86,22 +73,12 @@ export class AjusteFormComponent  implements OnInit {
           id: 0,
           observacion: '',
           items: [],
-          proveedor: this.proveedorSelected,
           totalCosto: 0,
           createAt: new Date(),
         };
         return;
       });
     }
-  }
-
-  openProveedorDialog() {
-    this.proveedorDialog = true;
-  }
-
-  onRowProveedorSelect(event: any) {
-    this.proveedorDialog = false;
-    this.ajusteStockSelected.proveedor = this.proveedorSelected;
   }
 
   onRowProductSelect(producto: Producto) {

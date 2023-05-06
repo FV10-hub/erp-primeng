@@ -201,6 +201,16 @@
               <td>{{ items.totalLinea | number : "1.0-0" }}</td>
             </tr>
           </ng-template>
+          <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-end">
+              <div class="flex align-items-center ml-auto">
+                  Total Iva: {{ totalIva | number : "1.0-2" }}
+              </div>
+              <div class="flex align-items-center ml-auto">
+                  Total Compra: {{ totalComprobante | number : "1.0-0" }}
+            </div>
+            </div>
+        </ng-template>
         </p-table>
       </div>
     </div>

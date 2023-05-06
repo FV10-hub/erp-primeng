@@ -12,6 +12,8 @@ import { Factura } from '../../../interface/factura';
 export class FacturaListComponent implements OnInit {
   public viewFactura: boolean = false;
   public facturas: Factura[] = [];
+  public totalComprobante: number = 0;
+  public totalIva: number = 0;
   public facturaSelected: Factura = {
     id: 0,
     descripcion: '',
@@ -83,6 +85,8 @@ export class FacturaListComponent implements OnInit {
   }
 
   view(factura: Factura) {
+    this.totalComprobante = factura.totalFactura;
+    this.totalIva = factura.totalFactura / 11;
     this.viewFactura = true;
     this.facturaToView = factura;
   }

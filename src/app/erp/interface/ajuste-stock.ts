@@ -1,10 +1,8 @@
-import { Proveedor } from './proveedor';
-import { ItemCompra } from './item-compra';
+import { ItemAjusteStock } from './item-ajuste-stock';
 export interface AjusteStock {
   id: number | null;
   observacion: string;
-  items: ItemCompra[];
-  proveedor: Proveedor;
+  items: ItemAjusteStock[];
   totalCosto: number;
   createAt: Date;
 }

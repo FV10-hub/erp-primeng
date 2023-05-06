@@ -12,6 +12,9 @@ import { CompraService } from '../../../services/compra.service';
 export class CompraListComponent implements OnInit {
   public viewCompra: boolean = false;
   public compras: Compra[] = [];
+  public cantidadItem: number = 0;
+  public totalComprobante: number = 0;
+  public totalIva: number = 0;
   public compraSelected: Compra = {
     id: 0,
     descripcion: '',
@@ -80,6 +83,8 @@ export class CompraListComponent implements OnInit {
   }
 
   view(compra: Compra) {
+    this.totalComprobante = compra.totalCompra;
+    this.totalIva = this.totalComprobante / 11;
     this.viewCompra = true;
     this.compraToView = compra;
   }

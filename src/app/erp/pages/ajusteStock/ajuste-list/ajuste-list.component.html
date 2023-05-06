@@ -44,7 +44,6 @@
       <ng-template pTemplate="header">
         <tr>
           <th>ID</th>
-          <th>Proveedor</th>
           <th>Observacion</th>
           <th>Fecha</th>
           <th>Total Costo</th>
@@ -54,7 +53,6 @@
       <ng-template pTemplate="body" let-ajusteStock>
         <tr>
           <td>{{ ajusteStock.id }}</td>
-          <td>{{ ajusteStock.proveedor.nombreCompleto }}</td>
           <td>{{ ajusteStock.observacion }}</td>
           <td>{{ ajusteStock.createAt | date : "dd/MM/yyyy" }}</td>
           <td>{{ ajusteStock.totalCosto | number : "1.0-0" }}</td>
@@ -113,23 +111,6 @@
                 id="fecha"
                 type="text"
                 [value]="ajusteStockToView.createAt | date : 'dd/MM/yyyy'"
-                pInputText
-                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="field grid">
-            <label for="proveedor">Proveedor:</label>
-            <div class="col-7">
-              <input
-                [disabled]="true"
-                id="proveedor"
-                placeholder="Presione F7 para buscar..."
-                type="text"
-                id="proveedor"
-                [(ngModel)]="ajusteStockToView.proveedor.nombreCompleto"
                 pInputText
                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
               />

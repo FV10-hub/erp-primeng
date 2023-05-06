@@ -82,8 +82,6 @@
         id="nombre"
         name="nombreCompleto"
         [(ngModel)]="clienteSelected.nombreCompleto"
-        required
-        autofocus
       />
       <small
         class="p-error"
@@ -98,7 +96,6 @@
         pInputText
         name="chapa"
         [(ngModel)]="clienteSelected.chapa"
-        required
       />
       <small class="p-error" *ngIf="submitted && !clienteSelected.chapa"
         >Chapa es requerido.</small
@@ -111,7 +108,6 @@
         pInputText
         name="documento"
         [(ngModel)]="clienteSelected.documento"
-        required
       />
       <small class="p-error" *ngIf="submitted && !clienteSelected.documento"
         >Documento es requerido.</small

@@ -20,6 +20,8 @@ export class CompraFormComponent implements OnInit {
   public productoDialog: boolean = false;
   public productoEditDialog: boolean = false;
   public cantidadItem: number = 0;
+  public totalComprobante: number = 0;
+  public totalIva: number = 0;
   public proveedores: Proveedor[] = [];
   public productos: Producto[] = [];
   public proveedorSelected: Proveedor = {
@@ -116,6 +118,7 @@ export class CompraFormComponent implements OnInit {
       producto,
       totalLinea: producto.precioCosto,
     });
+    this.calcularTotales();
   }
 
   openProductDialog() {
@@ -126,6 +129,7 @@ export class CompraFormComponent implements OnInit {
     this.compraSelected.items = this.compraSelected.items.filter(
       (productDelete) => productDelete.producto.id !== productoToDelete.id
     );
+    this.calcularTotales();
   }
 
   openEditItemProduct(productoToEdit: Producto) {
@@ -138,16 +142,21 @@ export class CompraFormComponent implements OnInit {
   }
 
   editItemProduct() {
-    this.compraSelected.items.forEach((item) => {
+    this.compraSelected.items = this.compraSelected.items.map((item) => {
       if (item.producto.id === this.compraItemSelected.producto.id) {
-        item.producto = { ...this.compraItemSelected.producto };
-        item.cantidad = this.cantidadItem;
-        item.totalLinea =
-          this.compraItemSelected.producto.precioCosto ?? 0 * this.cantidadItem;
-        return item;
+        var obj: ItemCompra = {
+          id: 0,
+          producto: this.compraItemSelected.producto,
+          cantidad: this.cantidadItem,
+          totalLinea:
+            this.compraItemSelected.producto.precioCosto!! * this.cantidadItem,
+        };
+
+        return obj;
       }
       return item;
     });
+    this.calcularTotales();
     this.productoEditDialog = false;
   }
 
@@ -181,7 +190,7 @@ export class CompraFormComponent implements OnInit {
           detail: 'Compra con exito!.',
           life: 3000,
         });
-        this.router.navigate(['/factura-list']);
+        this.router.navigate(['/compra-list']);
         return;
       }
 
@@ -192,6 +201,13 @@ export class CompraFormComponent implements OnInit {
         life: 3000,
       });
     });
-    //console.log(this.compraSelected);
+  }
+
+  calcularTotales(): void {
+    this.totalComprobante = this.compraSelected.items.reduce(
+      (anterior, current) => anterior + current.totalLinea!,
+      0
+    );
+    this.totalIva = this.totalComprobante / 11;
   }
 }

@@ -4,7 +4,6 @@
     <p-button
       label="Guardar"
       [ngStyle]="
-        ajusteStockSelected.proveedor.id > 0 &&
         ajusteStockSelected.items.length > 0
           ? { display: 'block' }
           : { display: 'none' }
@@ -45,33 +44,12 @@
         </div>
       </div>
     </div>
-    <div class="col-6">
-      <div class="field grid">
-        <label for="proveedor">Proveedor:</label>
-        <div class="col-7">
-          <input
-            id="proveedor"
-            placeholder="Presione F7 para buscar..."
-            type="text"
-            id="proveedor"
-            (keyup.f7)="openProveedorDialog()"
-            [(ngModel)]="ajusteStockSelected.proveedor.nombreCompleto"
-            pInputText
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          />
-        </div>
-      </div>
-    </div>
+
   </div>
   <div class="card">
     <p-toolbar styleClass="mb-4 gap-2">
       <ng-template pTemplate="left">
         <p-button
-          [ngStyle]="
-            ajusteStockSelected.proveedor.id > 0
-              ? { display: 'block' }
-              : { display: 'none' }
-          "
           pRipple
           label="Agregar Producto"
           icon="pi pi-plus"
@@ -128,58 +106,6 @@
     </p-table>
   </div>
 </div>
-
-<p-dialog
-  [(visible)]="proveedorDialog"
-  [style]="{ width: '900px' }"
-  [modal]="true"
-  styleClass="p-fluid"
->
-  <p-table
-    #dtCliente
-    [value]="proveedores"
-    selectionMode="single"
-    [(selection)]="proveedorSelected"
-    [globalFilterFields]="['nombreCompleto', 'documento', 'telefono']"
-    ataKey="code"
-    [rows]="10"
-    [paginator]="true"
-    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
-    [showCurrentPageReport]="true"
-    [rowHover]="true"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    (onRowSelect)="onRowProveedorSelect($event)"
-  >
-    <ng-template pTemplate="caption">
-      <div class="flex align-items-center justify-content-between">
-        <span class="p-input-icon-left">
-          <i class="pi pi-search"></i>
-          <input
-            pInputText
-            #textInput
-            type="text"
-            (input)="dtCliente.filterGlobal(textInput.value, 'contains')"
-            placeholder="Buscar..."
-          />
-        </span>
-      </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Documento</th>
-        <th>Nombre y Apellido</th>
-        <th>Telefono</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-proveedor>
-      <tr [pSelectableRow]="proveedor">
-        <td>{{ proveedor.documento }}</td>
-        <td>{{ proveedor.nombreCompleto }}</td>
-        <td>{{ proveedor.telefono }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
-</p-dialog>
 
 <p-dialog
   [(visible)]="productoDialog"
@@ -256,8 +182,6 @@
         pInputText
         id="name"
         [(ngModel)]="ajusteItemSelected.producto.descripcion"
-        required
-        autofocus
       />
     </div>
     <div class="field">

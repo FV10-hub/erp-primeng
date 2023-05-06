@@ -20,6 +20,8 @@ export class FacturaFormComponent implements OnInit {
   public productoDialog: boolean = false;
   public productoEditDialog: boolean = false;
   public cantidadItem: number = 0;
+  public totalComprobante: number = 0;
+  public totalIva: number = 0;
   public clientes: Cliente[] = [];
   public productos: Producto[] = [];
   public clienteSelected: Cliente = {
@@ -110,13 +112,26 @@ export class FacturaFormComponent implements OnInit {
   }
 
   onRowProductSelect(producto: Producto) {
-    this.productoDialog = false;
-    this.facturaSelected.items.push({
-      id: 0,
-      cantidad: 1,
-      importe: producto.precio,
-      producto,
-      totalLinea: producto.precio,
+    if (producto.existencia > 0) {
+      this.productoEditDialog = false;
+      this.productoDialog = false;
+      this.facturaSelected.items.push({
+        id: 0,
+        cantidad: 1,
+        importe: producto.precio,
+        producto,
+        totalLinea: producto.precio,
+      });
+      this.calcularTotales();
+
+      return;
+    }
+    console.log('NO ENtRO');
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'La existencia no es suficiente',
+      life: 3000,
     });
   }
 
@@ -128,6 +143,7 @@ export class FacturaFormComponent implements OnInit {
     this.facturaSelected.items = this.facturaSelected.items.filter(
       (productDelete) => productDelete.producto.id !== productoToDelete.id
     );
+    this.calcularTotales();
   }
 
   openEditItemProduct(productoToEdit: Producto) {
@@ -141,13 +157,13 @@ export class FacturaFormComponent implements OnInit {
 
   editItemProduct() {
     if (this.cantidadItem < this.facturaItemSelected.producto.existencia) {
-      console.log('entro');
       this.facturaSelected.items.forEach((item) => {
         if (item.producto.id === this.facturaItemSelected.producto.id) {
           item.producto = { ...this.facturaItemSelected.producto };
           item.cantidad = this.cantidadItem;
           item.totalLinea =
             this.facturaItemSelected.producto.precio * this.cantidadItem;
+          this.calcularTotales();
           return item;
         }
         return item;
@@ -207,5 +223,13 @@ export class FacturaFormComponent implements OnInit {
       });
     });
     //console.log(this.facturaSelected);
+  }
+
+  calcularTotales(): void {
+    this.totalComprobante = this.facturaSelected.items.reduce(
+      (anterior, current) => anterior + current.totalLinea!,
+      0
+    );
+    this.totalIva = this.totalComprobante / 11;
   }
 }

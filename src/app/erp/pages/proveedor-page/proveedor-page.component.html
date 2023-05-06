@@ -80,8 +80,6 @@
         id="nombre"
         name="nombreCompleto"
         [(ngModel)]="proveedorSelected.nombreCompleto"
-        required
-        autofocus
       />
       <small
         class="p-error"
@@ -96,7 +94,6 @@
         pInputText
         name="documento"
         [(ngModel)]="proveedorSelected.documento"
-        required
       />
       <small class="p-error" *ngIf="submitted && !proveedorSelected.documento"
         >Documento es requerido.</small
@@ -109,7 +106,6 @@
         pInputText
         name="telefono"
         [(ngModel)]="proveedorSelected.telefono"
-        required
       />
       <small class="p-error" *ngIf="submitted && !proveedorSelected.telefono"
         >Telefono es requerido.</small
