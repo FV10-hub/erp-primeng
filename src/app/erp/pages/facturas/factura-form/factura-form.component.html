@@ -127,6 +127,7 @@
           <th>Descriocion</th>
           <th>Cantidad</th>
           <th>Precio Unitario</th>
+          <th>Descuento</th>
           <th>Total Linea</th>
           <th>Acciones</th>
         </tr>
@@ -137,6 +138,7 @@
           <td>{{ items.producto.descripcion }}</td>
           <td>{{ items.cantidad }}</td>
           <td>{{ items.importe | number : "1.0-0" }}</td>
+          <td>{{ items.descuento | number : "1.0-0" }}</td>
           <td>{{ items.totalLinea | number : "1.0-0" }}</td>
           <td>
             <button
@@ -157,14 +159,13 @@
       <ng-template pTemplate="summary">
         <div class="flex align-items-center justify-content-end">
           <div class="flex align-items-center ml-auto">
-              Total Iva: {{ totalIva | number : "1.0-2" }}
+            Total Iva: {{ totalIva | number : "1.0-2" }}
           </div>
           <div class="flex align-items-center ml-auto">
             Total Venta: {{ totalComprobante | number : "1.0-0" }}
+          </div>
         </div>
-        </div>
-
-    </ng-template>
+      </ng-template>
     </p-table>
   </div>
 </div>
@@ -302,7 +303,21 @@
     </div>
     <div class="field">
       <label for="cantidad">Cantidad</label>
-      <p-inputNumber id="price" [(ngModel)]="cantidadItem"></p-inputNumber>
+      <p-inputNumber id="cantidad" [(ngModel)]="cantidadItem"></p-inputNumber>
+    </div>
+    <div class="field">
+      <label for="precio">Precio Unitacio</label>
+      <p-inputNumber
+        id="precio"
+        [(ngModel)]="facturaItemSelected.producto.precio"
+      ></p-inputNumber>
+    </div>
+    <div class="field">
+      <label for="descuento">Descuento</label>
+      <p-inputNumber
+        id="descuento"
+        [(ngModel)]="facturaItemSelected.descuento"
+      ></p-inputNumber>
     </div>
   </ng-template>
 

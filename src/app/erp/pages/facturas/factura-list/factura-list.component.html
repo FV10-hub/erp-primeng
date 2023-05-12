@@ -188,6 +188,7 @@
               <th>Descriocion</th>
               <th>Cantidad</th>
               <th>Precio Unitario</th>
+              <th>Descuento</th>
               <th>Total Linea</th>
             </tr>
           </ng-template>
@@ -197,6 +198,7 @@
               <td>{{ items.producto.descripcion }}</td>
               <td>{{ items.cantidad }}</td>
               <td>{{ items.importe | number : "1.0-0" }}</td>
+              <td>{{ items.descuento | number : "1.0-0" }}</td>
               <td>{{ items.totalLinea | number : "1.0-0" }}</td>
             </tr>
           </ng-template>

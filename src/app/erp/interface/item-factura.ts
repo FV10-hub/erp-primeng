@@ -6,7 +6,7 @@ export interface ItemFactura {
   cantidad: number;
   importe: number;
   totalLinea?: number;
-
+  descuento: number;
   /*public calcularImporte(): number {
     return this.cantidad * this.producto.precio;
   }*/

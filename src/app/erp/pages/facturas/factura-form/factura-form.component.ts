@@ -61,7 +61,8 @@ export class FacturaFormComponent implements OnInit {
       existencia: 0,
       createAt: new Date(),
     },
-    importe: 30.0,
+    importe: 0.0,
+    descuento: 0
   };
 
   constructor(
@@ -121,6 +122,7 @@ export class FacturaFormComponent implements OnInit {
         importe: producto.precio,
         producto,
         totalLinea: producto.precio,
+        descuento: 0
       });
       this.calcularTotales();
 
@@ -161,8 +163,7 @@ export class FacturaFormComponent implements OnInit {
         if (item.producto.id === this.facturaItemSelected.producto.id) {
           item.producto = { ...this.facturaItemSelected.producto };
           item.cantidad = this.cantidadItem;
-          item.totalLinea =
-            this.facturaItemSelected.producto.precio * this.cantidadItem;
+          item.totalLinea = (this.facturaItemSelected.producto.precio * this.cantidadItem) - item.descuento ?? 0;
           this.calcularTotales();
           return item;
         }
