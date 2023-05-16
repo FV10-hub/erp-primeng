@@ -1,0 +1,32 @@
+
+<div class="flex flex-column align-content-center">
+  <h2 class="m-auto">Reporte de Ventas</h2>
+  <div class="field col-12 md:col-4">
+    <label for="desde">Fecha Desde: </label>
+    <p-calendar
+      class="ml-6"
+      [(ngModel)]="desde"
+      dateFormat="dd/mm/yy"
+      [showIcon]="true"
+      inputId="desde"
+    ></p-calendar>
+  </div>
+  <div class="field col-12 md:col-4">
+    <label for="hasta">Fecha Hasta: </label>
+    <p-calendar
+      class="ml-6"
+      dateFormat="dd/mm/yy"
+      [(ngModel)]="hasta"
+      [showIcon]="true"
+      inputId="hasta"
+    ></p-calendar>
+  </div>
+  <div class="col-2">
+    <p-button
+      label="Generar Reportes"
+      icon="pi pi-download"
+      styleClass="p-button-success"
+      (onClick)="generateReport()"
+    ></p-button>
+  </div>
+</div>

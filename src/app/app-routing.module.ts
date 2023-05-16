@@ -10,6 +10,7 @@ import { ProveedorPageComponent } from './erp/pages/proveedor-page/proveedor-pag
 import { CompraFormComponent } from './erp/pages/compras/compra-form/compra-form.component';
 import { AjusteListComponent } from './erp/pages/ajusteStock/ajuste-list/ajuste-list.component';
 import { AjusteFormComponent } from './erp/pages/ajusteStock/ajuste-form/ajuste-form.component';
+import { ReporteVentaComponent } from './erp/pages/reportes/reporte-venta/reporte-venta.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
   {
     path: 'ajuste-form/:id',
     component: AjusteFormComponent,
+  },
+  {
+    path: 'reporte-ventas',
+    component: ReporteVentaComponent,
   },
   {
     path: '**',

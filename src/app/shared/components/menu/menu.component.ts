@@ -37,6 +37,14 @@ export class MenuComponent implements OnInit {
           { label: 'Ajustes de Stock', icon: 'pi pi-fw pi-sort-alt', routerLink: 'ajuste-list' },
         ],
       },
+      {
+        label: 'Reportes',
+        icon: 'pi pi-print',
+        items: [
+          { label: 'Ventas', icon: 'pi pi-fw pi-file-export', routerLink: 'reporte-ventas' },
+          { separator: true },
+        ],
+      },
     ];
   }
 }

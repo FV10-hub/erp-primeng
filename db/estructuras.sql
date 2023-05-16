@@ -261,3 +261,5 @@ AFTER INSERT OR DELETE ON ajuste_stock_detalle
 FOR EACH ROW
 EXECUTE PROCEDURE actualizar_existencia_inventario();
 
+ALTER TABLE public.facturas_detalles
+ADD COLUMN descuento numeric(38, 2);
