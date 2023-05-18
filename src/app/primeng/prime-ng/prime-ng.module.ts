@@ -14,6 +14,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ChartModule } from 'primeng/chart';
 import {DividerModule} from 'primeng/divider';
 import {CardModule} from 'primeng/card';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [],
@@ -32,7 +33,8 @@ import {CardModule} from 'primeng/card';
     ToolbarModule,
     ChartModule,
     DividerModule,
-    CardModule
+    CardModule,
+    DropdownModule
   ],
 })
 export class PrimeNgModule {}

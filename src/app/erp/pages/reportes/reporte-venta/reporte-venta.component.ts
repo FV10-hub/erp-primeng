@@ -1,17 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportesService } from 'src/app/erp/services/reportes.service';
 
+interface Formatos {
+  name: string;
+  code: string;
+}
+
 @Component({
   templateUrl: './reporte-venta.component.html',
-  styles: [
-  ]
+  styles: [],
 })
-export class ReporteVentaComponent implements OnInit{
-
+export class ReporteVentaComponent implements OnInit {
   desde?: Date;
   hasta?: Date;
+  format: Formatos = { name: 'PDF', code: 'PDF' };
+  formatos: Formatos[];
 
-  constructor(private reportService: ReportesService) { }
+  constructor(private reportService: ReportesService) {
+    this.formatos = [
+      { name: 'PDF', code: 'PDF' },
+      { name: 'XLSX', code: 'XLS' },
+      { name: 'CSV', code: 'CSV' },
+    ];
+  }
 
   ngOnInit(): void {
     this.desde = new Date();
@@ -22,13 +33,13 @@ export class ReporteVentaComponent implements OnInit{
     const reportName = 'Ventas'; // Reemplaza con el nombre del informe que deseas generar
     const parameters = {
       p_fecha_ini: this.formatoFecha(this.desde!),
-      p_fecha_fin: this.formatoFecha(this.hasta!)
+      p_fecha_fin: this.formatoFecha(this.hasta!),
     };
-    const format = 'PDF'; // Reemplaza con el formato del informe que deseas generar (pdf o xls)
 
-    this.reportService.generateReport(reportName, parameters, format)
-      .subscribe(response => {
-        this.downloadReport(response.body!, reportName, format);
+    this.reportService
+      .generatePostReport(reportName, parameters)
+      .subscribe((response) => {
+        this.downloadReport(response.body!, reportName, this.format.code);
       });
   }
 

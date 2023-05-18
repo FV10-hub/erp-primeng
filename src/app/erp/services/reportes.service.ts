@@ -29,4 +29,16 @@ export class ReportesService {
     });
   }
 
+  generatePostReport(reportName: string, parameters: any): Observable<HttpResponse<Blob>> {
+    const headers = new HttpHeaders().set('Accept', 'application/octet-stream');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      responseType: 'blob' as 'json', // Indicamos que la respuesta será de tipo Blob
+      observe: 'response' as 'body' // Observamos la respuesta completa incluyendo cabeceras
+    };
+    return this.http.post<HttpResponse<Blob>>(`${this.baseUrl}/api/reportes/${reportName}`, parameters, httpOptions);
+  }
+
 }
