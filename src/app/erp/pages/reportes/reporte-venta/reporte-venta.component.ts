@@ -34,6 +34,7 @@ export class ReporteVentaComponent implements OnInit {
     const parameters = {
       p_fecha_ini: this.formatoFecha(this.desde!),
       p_fecha_fin: this.formatoFecha(this.hasta!),
+      format: this.format.code
     };
 
     this.reportService
