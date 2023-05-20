@@ -138,6 +138,9 @@ export class FacturaFormComponent implements OnInit {
   }
 
   openProductDialog() {
+    this.productoService.getProductos().subscribe((productos) => {
+      this.productos = productos;
+    });
     this.productoDialog = true;
   }
 
