@@ -43,7 +43,6 @@ export class HomePageComponent implements OnInit {
     this.dashboardoService.getComprobantesPorMesDashDao('ventas').subscribe((data) => {
       this.isLoadingVenta = true;
       if (data == null) return;
-      console.log(data)
       for (const objeto of data) {
         this.listaMesesVentas.push(objeto.mes);
         this.listaTotalesVentas.push(objeto.totalComprobante);
@@ -55,7 +54,6 @@ export class HomePageComponent implements OnInit {
   }
 
   generateBarDashComprasPorMes(meses: string[], totales: number[]) {
-    console.log(totales);
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue(
@@ -66,7 +64,7 @@ export class HomePageComponent implements OnInit {
       labels: meses,
       datasets: [
         {
-          label: `Comrpas en ${this.anio!.getFullYear().toString()}`,
+          label: ``,
           data: totales,
           backgroundColor: [
             'rgba(255, 159, 64, 0.2)',

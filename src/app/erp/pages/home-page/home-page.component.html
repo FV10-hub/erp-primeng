@@ -1,29 +1,38 @@
 <div class="grid">
-
   <div class="col-6" *ngIf="!isLoadingCompra">
-    <p-card header="Compras">
+    <p-card>
+      <ng-template pTemplate="header">
+        <h2 class="m-auto">Compas de {{ anio!.getFullYear().toString() }}</h2>
+      </ng-template>
       <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
     </p-card>
   </div>
-  <div class="col-6 flex align-items-center justify-content-center" *ngIf="isLoadingCompra">
+  <div
+    class="col-6 flex align-items-center justify-content-center"
+    *ngIf="isLoadingCompra"
+  >
     <p-progressSpinner></p-progressSpinner>
   </div>
 
-   <div class="col-6" *ngIf="!isLoadingCompra">
-    <p-card header="Ventas">
+  <div class="col-6" *ngIf="!isLoadingCompra">
+    <p-card>
+      <ng-template pTemplate="header">
+        <h2 class="m-auto">Ventas de {{ anio!.getFullYear().toString() }}</h2>
+      </ng-template>
       <div>
         <p-chart
-        height="400px"
-        type="doughnut"
-        [data]="data"
-        [options]="chartOptions"
-      ></p-chart>
+          height="400px"
+          type="doughnut"
+          [data]="data"
+          [options]="chartOptions"
+        ></p-chart>
       </div>
-
     </p-card>
   </div>
-  <div class="col-6 flex align-items-center justify-content-center" *ngIf="isLoadingCompra">
+  <div
+    class="col-6 flex align-items-center justify-content-center"
+    *ngIf="isLoadingCompra"
+  >
     <p-progressSpinner></p-progressSpinner>
   </div>
-
 </div>
