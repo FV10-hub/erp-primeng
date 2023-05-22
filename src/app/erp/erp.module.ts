@@ -13,6 +13,8 @@ import { CompraFormComponent } from './pages/compras/compra-form/compra-form.com
 import { AjusteListComponent } from './pages/ajusteStock/ajuste-list/ajuste-list.component';
 import { AjusteFormComponent } from './pages/ajusteStock/ajuste-form/ajuste-form.component';
 import { ReporteVentaComponent } from './pages/reportes/reporte-venta/reporte-venta.component';
+import { ReporteCompraComponent } from './pages/reportes/reporte-compra/reporte-compra.component';
+import { ReporteArticulosComponent } from './pages/reportes/reporte-articulos/reporte-articulos.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { ReporteVentaComponent } from './pages/reportes/reporte-venta/reporte-ve
     CompraFormComponent,
     AjusteListComponent,
     AjusteFormComponent,
-    ReporteVentaComponent
+    ReporteVentaComponent,
+    ReporteCompraComponent,
+    ReporteArticulosComponent
   ],
   imports: [CommonModule, PrimeNgModule, FormsModule],
   exports: [

@@ -15,6 +15,7 @@ import { ChartModule } from 'primeng/chart';
 import {DividerModule} from 'primeng/divider';
 import {CardModule} from 'primeng/card';
 import {DropdownModule} from 'primeng/dropdown';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [],
@@ -34,7 +35,8 @@ import {DropdownModule} from 'primeng/dropdown';
     ChartModule,
     DividerModule,
     CardModule,
-    DropdownModule
+    DropdownModule,
+    ProgressSpinnerModule
   ],
 })
 export class PrimeNgModule {}

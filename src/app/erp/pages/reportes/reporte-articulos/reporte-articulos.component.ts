@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ReportesService } from 'src/app/erp/services/reportes.service';
 
 interface Formatos {
@@ -7,12 +7,12 @@ interface Formatos {
 }
 
 @Component({
-  templateUrl: './reporte-venta.component.html',
-  styles: [],
+  selector: 'app-reporte-articulos',
+  templateUrl: './reporte-articulos.component.html',
+  styles: [
+  ]
 })
-export class ReporteVentaComponent implements OnInit {
-  desde?: Date;
-  hasta?: Date;
+export class ReporteArticulosComponent {
   format: Formatos = { name: 'PDF', code: 'PDF' };
   formatos: Formatos[];
 
@@ -24,16 +24,9 @@ export class ReporteVentaComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {
-    this.desde = new Date();
-    this.hasta = new Date();
-  }
-
   generateReport() {
-    const reportName = 'VentasPorFecha'; // Reemplaza con el nombre del informe que deseas generar
+    const reportName = 'Articulos'; // Reemplaza con el nombre del informe que deseas generar
     const parameters = {
-      p_fecha_ini: this.formatoFecha(this.desde!),
-      p_fecha_fin: this.formatoFecha(this.hasta!),
       format: this.format.code
     };
 
@@ -54,17 +47,5 @@ export class ReporteVentaComponent implements OnInit {
     downloadLink.href = window.URL.createObjectURL(blob);
     downloadLink.download = `${reportName}-${dia}/${mes}/${anio}:${hora}.${format}`;
     downloadLink.click();
-  }
-
-  formatoFecha(fecha: Date): string {
-    const dia = fecha.getDate();
-    const mes = fecha.getMonth() + 1;
-    const anio = fecha.getFullYear();
-
-    const diaFormatted = dia < 10 ? '0' + dia : dia.toString();
-    const mesFormatted = mes < 10 ? '0' + mes : mes.toString();
-
-    const fechaFormatted = diaFormatted + '/' + mesFormatted + '/' + anio;
-    return fechaFormatted;
   }
 }

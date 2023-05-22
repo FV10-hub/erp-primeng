@@ -11,6 +11,8 @@ import { CompraFormComponent } from './erp/pages/compras/compra-form/compra-form
 import { AjusteListComponent } from './erp/pages/ajusteStock/ajuste-list/ajuste-list.component';
 import { AjusteFormComponent } from './erp/pages/ajusteStock/ajuste-form/ajuste-form.component';
 import { ReporteVentaComponent } from './erp/pages/reportes/reporte-venta/reporte-venta.component';
+import { ReporteCompraComponent } from './erp/pages/reportes/reporte-compra/reporte-compra.component';
+import { ReporteArticulosComponent } from './erp/pages/reportes/reporte-articulos/reporte-articulos.component';
 
 const routes: Routes = [
   {
@@ -56,6 +58,15 @@ const routes: Routes = [
   {
     path: 'reporte-ventas',
     component: ReporteVentaComponent,
+  },
+  {
+    path: 'reporte-compras',
+    component: ReporteCompraComponent,
+  }
+  ,
+  {
+    path: 'reporte-articulos',
+    component: ReporteArticulosComponent,
   },
   {
     path: '**',

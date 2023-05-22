@@ -1,0 +1,21 @@
+<div class="flex flex-column align-content-center">
+  <h2 class="m-auto">Reporte de Articulos para Inventario</h2>
+  <div class="flex">
+      <div class="flex align-items-center justify-content-center font-bold text-gray-900 m-2 px-5 py-3 border-round">
+        <label for="formato">Formato: </label>
+        <p-dropdown class="ml-7" [options]="formatos" [(ngModel)]="format" optionLabel="name"></p-dropdown>
+      </div>
+      <div class="flex align-items-center justify-content-center font-bold text-gray-900 m-2 px-5 py-3 border-round">
+
+      </div>
+      <div class="flex align-items-center justify-content-center font-bold text-gray-900 m-2 px-5 py-3 border-round">
+        <p-button
+        label="Generar Reporte"
+        icon="pi pi-download"
+        styleClass="p-button-success"
+        (onClick)="generateReport()"
+      ></p-button>
+      </div>
+  </div>
+</div>
+

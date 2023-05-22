@@ -7,10 +7,10 @@ interface Formatos {
 }
 
 @Component({
-  templateUrl: './reporte-venta.component.html',
-  styles: [],
+  selector: 'app-reporte-compra',
+  templateUrl: './reporte-compra.component.html',
 })
-export class ReporteVentaComponent implements OnInit {
+export class ReporteCompraComponent implements OnInit {
   desde?: Date;
   hasta?: Date;
   format: Formatos = { name: 'PDF', code: 'PDF' };
@@ -30,7 +30,7 @@ export class ReporteVentaComponent implements OnInit {
   }
 
   generateReport() {
-    const reportName = 'VentasPorFecha'; // Reemplaza con el nombre del informe que deseas generar
+    const reportName = 'ComprasPorFecha'; // Reemplaza con el nombre del informe que deseas generar
     const parameters = {
       p_fecha_ini: this.formatoFecha(this.desde!),
       p_fecha_fin: this.formatoFecha(this.hasta!),

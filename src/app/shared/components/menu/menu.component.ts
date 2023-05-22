@@ -41,7 +41,11 @@ export class MenuComponent implements OnInit {
         label: 'Reportes',
         icon: 'pi pi-print',
         items: [
-          { label: 'Ventas', icon: 'pi pi-fw pi-file-export', routerLink: 'reporte-ventas' },
+          { label: 'Ventas por Fechas', icon: 'pi pi-fw pi-file-export', routerLink: 'reporte-ventas' },
+          { separator: true },
+          { label: 'Compras por Fechas', icon: 'pi pi-fw pi-file-export', routerLink: 'reporte-compras' },
+          { separator: true },
+          { label: 'Listado de Articulos', icon: 'pi pi-fw pi-file-export', routerLink: 'reporte-articulos' },
           { separator: true },
         ],
       },
