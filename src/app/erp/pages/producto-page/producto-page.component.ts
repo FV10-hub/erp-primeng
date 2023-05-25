@@ -125,19 +125,29 @@ export class ProductoPageComponent implements OnInit {
       return;
     }
 
-    console.log(JSON.stringify(this.productoSelected));
     this.productoService.create(this.productoSelected).subscribe(
       (productoResponse) => {
-        this.productos.push(productoResponse.producto);
+        console.log(JSON.stringify(productoResponse));
+        if (productoResponse.hasOwnProperty('producto')) {
+          this.productos.push(productoResponse.producto);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Hecho',
+            detail: 'Producto Creado',
+            life: 3000,
+          });
+          this.productoDialog = false;
+          this.getProductos();
+          this.router.navigate(['/producto']);
+          return;
+        }
         this.messageService.add({
-          severity: 'success',
-          summary: 'Hecho',
-          detail: 'Producto Creado',
+          severity: 'warn',
+          summary: 'OOps!',
+          detail: productoResponse.mensaje,
           life: 3000,
         });
         this.productoDialog = false;
-        this.getProductos();
-        this.router.navigate(['/producto']);
       },
       (err) => {
         console.error('Código del error desde el backend: ' + err.status);
