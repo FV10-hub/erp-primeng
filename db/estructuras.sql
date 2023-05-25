@@ -264,8 +264,6 @@ EXECUTE PROCEDURE actualizar_existencia_inventario();
 ALTER TABLE public.facturas_detalles
 ADD COLUMN descuento numeric(38, 2);
 
-
-
 --BACKUP DE FUENTE DE LUBRICAMPEON
 /*
 CREATE OR REPLACE FUNCTION public.actualizar_existencia()
