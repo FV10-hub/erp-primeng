@@ -3,7 +3,12 @@ FROM node:18.16.0 AS builder
 
 WORKDIR /usr/local/app
 
-RUN npm cache clean --force
+COPY package.json package-lock.json ./
+
+# instala las dependencias de la aplicación
+RUN npm install
+
+#RUN npm cache clean --force
 
 # Add the source code to app
 COPY ./ /usr/local/app/
