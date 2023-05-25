@@ -263,3 +263,85 @@ EXECUTE PROCEDURE actualizar_existencia_inventario();
 
 ALTER TABLE public.facturas_detalles
 ADD COLUMN descuento numeric(38, 2);
+
+
+
+--BACKUP DE FUENTE DE LUBRICAMPEON
+/*
+CREATE OR REPLACE FUNCTION public.actualizar_existencia()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE public.productos SET existencia = existencia - NEW.cantidad WHERE id = NEW.producto_id;
+    RETURN NEW;
+  ELSIF TG_OP = 'DELETE' THEN
+    UPDATE public.productos SET existencia = existencia + OLD.cantidad WHERE id = OLD.producto_id;
+    RETURN OLD;
+  END IF;
+END;
+$BODY$;
+
+ALTER FUNCTION public.actualizar_existencia()
+    OWNER TO postgres;
+
+CREATE OR REPLACE FUNCTION public.actualizar_existencia_compras()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE public.productos SET existencia = existencia + NEW.cantidad WHERE id = NEW.producto_id;
+    RETURN NEW;
+  ELSIF TG_OP = 'DELETE' THEN
+    UPDATE public.productos SET existencia = existencia - OLD.cantidad WHERE id = OLD.producto_id;
+    RETURN OLD;
+  END IF;
+END;
+$BODY$;
+
+ALTER FUNCTION public.actualizar_existencia_compras()
+    OWNER TO postgres;
+
+CREATE OR REPLACE FUNCTION public.actualizar_existencia_inventario()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE public.productos SET existencia = NEW.cantidad WHERE id = NEW.producto_id;
+    RETURN NEW;
+  ELSIF TG_OP = 'DELETE' THEN
+    UPDATE public.productos SET existencia = OLD.cantidad WHERE id = OLD.producto_id;
+    RETURN OLD;
+  END IF;
+END;
+$BODY$;
+
+ALTER FUNCTION public.actualizar_existencia_inventario()
+    OWNER TO postgres;
+
+CREATE TRIGGER actualizar_existencia_ajuste
+    AFTER INSERT OR DELETE
+    ON public.ajuste_stock_detalle
+    FOR EACH ROW
+    EXECUTE FUNCTION public.actualizar_existencia_inventario();
+
+CREATE TRIGGER actualizar_existencia_compras
+    AFTER INSERT OR DELETE
+    ON public.compras_detalles
+    FOR EACH ROW
+    EXECUTE FUNCTION public.actualizar_existencia_compras();
+
+CREATE TRIGGER actualizar_existencia_ventas
+    AFTER INSERT OR DELETE
+    ON public.facturas_detalles
+    FOR EACH ROW
+    EXECUTE FUNCTION public.actualizar_existencia();*/
