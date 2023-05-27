@@ -95,36 +95,36 @@ export class ProductoPageComponent implements OnInit {
 
   guardar() {
     if (this.productoSelected.id > 0) {
-      this.productoService.updateProducto(this.productoSelected).subscribe(
-        (productoResponse) => {
-          const productoActualizado = productoResponse.producto;
-          console.log(productoResponse.producto);
-          this.productos = this.productos.map((prod) => {
-            if (prod.id === productoActualizado.id) {
-              prod = productoActualizado;
-            }
-            return prod;
-          });
-          if (productoActualizado) {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Hecho',
-              detail: 'Producto Actualizado',
-              life: 3000,
-            });
-            this.productoDialog = false;
-            //this.router.navigate(['/producto']);
-          }
-        },
-        (err) => {
-          console.error('Código del error desde el backend: ' + err.status);
-          console.error(err.error);
-        }
-      );
-      this.getProductos();
+      this.update();
       return;
     }
+    this.create();
+  }
 
+  update(): void {
+    this.productoService.updateProducto(this.productoSelected).subscribe(
+      (productoResponse) => {
+        const productoActualizado = productoResponse.producto;
+        if (productoActualizado) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Hecho',
+            detail: 'Producto Actualizado',
+            life: 3000,
+          });
+          this.getProductos();
+          this.productoDialog = false;
+          //this.router.navigate(['/producto']);
+        }
+      },
+      (err) => {
+        console.error('Código del error desde el backend: ' + err.status);
+        console.error(err.error);
+      }
+    );
+  }
+
+  create(): void {
     this.productoService.create(this.productoSelected).subscribe(
       (productoResponse) => {
         console.log(JSON.stringify(productoResponse));
@@ -136,8 +136,8 @@ export class ProductoPageComponent implements OnInit {
             detail: 'Producto Creado',
             life: 3000,
           });
-          this.productoDialog = false;
           this.getProductos();
+          this.productoDialog = false;
           this.router.navigate(['/producto']);
           return;
         }

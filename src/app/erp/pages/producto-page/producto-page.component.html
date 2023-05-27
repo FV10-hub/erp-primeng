@@ -48,8 +48,8 @@
           <td>{{ producto.id }}</td>
           <td>{{ producto.codigoBarra }}</td>
           <td>{{ producto.descripcion }}</td>
-          <td>{{ producto.existencia }}</td>
-          <td>{{ producto.precio }}</td>
+          <td>{{ producto.existencia | number : "1.0-0"  }}</td>
+          <td>{{ producto.precio | number : "1.0-0"  }}</td>
           <td>
             <p-button
               icon="pi pi-pencil"
