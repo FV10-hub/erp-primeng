@@ -58,6 +58,7 @@ export class FacturaListComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.facturaService.getFacturas().subscribe((facturasResponse) => {
+      facturasResponse.sort(this.compararFechasDescendente);
       this.facturas = facturasResponse;
     });
   }
@@ -111,4 +112,9 @@ export class FacturaListComponent implements OnInit {
       createAt: new Date(),
     };
   }
+
+  // Función de comparación para ordenar en orden descendente
+  orderDateDESC(a: Factura, b: Factura) {
+    return b.createAt.getTime() - a.createAt.getTime();
+  };
 }

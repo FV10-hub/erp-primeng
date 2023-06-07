@@ -44,10 +44,10 @@
       <ng-template pTemplate="header">
         <tr>
           <th>ID</th>
-          <th>Cliente</th>
+          <th pSortableColumn="cliente.nombreCompleto">Cliente<p-sortIcon field="cliente.nombreCompleto"></p-sortIcon></th>
           <th>Descripcion</th>
           <th>Numero Factura</th>
-          <th>Fecha</th>
+          <th pSortableColumn="createAt">Fecha<p-sortIcon field="createAt"></p-sortIcon></th>
           <th>Total Factura</th>
           <th>Acciones</th>
         </tr>
