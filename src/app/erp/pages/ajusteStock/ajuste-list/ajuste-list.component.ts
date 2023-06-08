@@ -34,6 +34,10 @@ export class AjusteListComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.ajusteStockService.getAjusteStocks().subscribe((ajusteStockResponse) => {
+      for (const stock of ajusteStockResponse) {
+        stock.createAt = new Date(stock.createAt as unknown as string); // Convertimos el campo de fecha de string a Date
+      }
+      ajusteStockResponse.sort(this.orderDateDESC);
       this.ajusteStocks = ajusteStockResponse;
     });
   }
@@ -75,4 +79,9 @@ export class AjusteListComponent implements OnInit {
       createAt: new Date(),
     };
   }
+
+  orderDateDESC(a: AjusteStock, b: AjusteStock) {
+    return b.createAt.getTime() - a.createAt.getTime();
+  };
+
 }

@@ -58,7 +58,10 @@ export class FacturaListComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.facturaService.getFacturas().subscribe((facturasResponse) => {
-      facturasResponse.sort(this.compararFechasDescendente);
+      for (const factura of facturasResponse) {
+        factura.createAt = new Date(factura.createAt as unknown as string); // Convertimos el campo de fecha de string a Date
+      }
+      facturasResponse.sort(this.orderDateDESC);
       this.facturas = facturasResponse;
     });
   }

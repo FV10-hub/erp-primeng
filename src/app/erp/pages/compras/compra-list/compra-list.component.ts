@@ -56,6 +56,10 @@ export class CompraListComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.compraService.getCompras().subscribe((comprasResponse) => {
+      for (const factura of comprasResponse) {
+        factura.createAt = new Date(factura.createAt as unknown as string); // Convertimos el campo de fecha de string a Date
+      }
+      comprasResponse.sort(this.orderDateDESC);
       this.compras = comprasResponse;
     });
   }
@@ -108,4 +112,8 @@ export class CompraListComponent implements OnInit {
       createAt: new Date(),
     };
   }
+
+  orderDateDESC(a: Compra, b: Compra) {
+    return b.createAt.getTime() - a.createAt.getTime();
+  };
 }
